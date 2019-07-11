@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nahsshan.user.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.nahsshan.user.common.entity.User">
+        <id column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="age" jdbcType="INTEGER" property="age" />
+    </resultMap>
+
+    <insert id="insert" parameterType="com.nahsshan.user.common.entity.User">
+        insert into `user` (`user_name`, `age`) values (#{userName}, #{age});
+    </insert>
+
+    <select id="getByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select user_id, user_name, age from `user` where user_id = #{userId}
+    </select>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select user_id, user_name, age FROM `user`
+    </select>
+
+</mapper>

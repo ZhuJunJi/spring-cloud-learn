@@ -14,7 +14,11 @@ eureka:
   client:
     service-url:
       #服务注册
-      defaultZone: http://192.168.137.1:8001/eureka/,http://192.168.137.1:8002/eureka/
+      defaultZone: http://localhost:8001/eureka/,http://localhost:8002/eureka/
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
 ---
 server:
   port: 8001
@@ -24,7 +28,11 @@ eureka:
   client:
     service-url:
       #服务注册
-      defaultZone: http://192.168.137.1:8000/eureka/,http://192.168.137.1:8002/eureka/
+      defaultZone: http://localhost:8000/eureka/,http://localhost:8002/eureka/
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
 ---
 server:
   port: 8002
@@ -34,4 +42,8 @@ eureka:
   client:
     service-url:
       #服务注册
-      defaultZone: http://192.168.137.1:8000/eureka/,http://192.168.137.1:8001/eureka/
+      defaultZone: http://localhost:8000/eureka/,http://localhost:8001/eureka/
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}

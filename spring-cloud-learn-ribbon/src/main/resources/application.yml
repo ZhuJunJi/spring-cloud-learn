@@ -5,20 +5,22 @@ spring:
 spring:
   profiles: dev
   application:
-    name: spring-cloud-learn-eureka-client
+    name: spring-cloud-learn-ribbon
 server:
-  port: 8080
+  port: 9000
 eureka:
   client:
     service-url:
-      # 注册到注册中心
+      #服务注册
       defaultZone: http://localhost:8000/eureka/,http://localhost:8001/eureka/,http://localhost:8002/eureka/
-    registry-fetch-interval-seconds: 10
   instance:
     hostname: localhost
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
-management:
-  endpoint:
-    health:
-      show-details: always
+#服务提供方主机
+service-provider:
+  host: localhost
+  #服务提供方端口
+  port: 8080
+  #服务提供方名称
+  name: spring-cloud-learn-eureka-client
