@@ -105,7 +105,7 @@
             <version>1.2.58</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.apache.curator/curator-recipes -->
+        <!-- curator -->
         <dependency>
             <groupId>org.apache.curator</groupId>
             <artifactId>curator-recipes</artifactId>
@@ -116,6 +116,12 @@
             <groupId>org.joda</groupId>
             <artifactId>joda-money</artifactId>
             <version>1.0.1</version>
+        </dependency>
+
+        <!-- actuator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
     </dependencies>
 

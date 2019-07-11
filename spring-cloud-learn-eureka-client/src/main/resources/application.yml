@@ -1,11 +1,11 @@
 spring:
   profiles:
     active: dev
+  application:
+    name: spring-cloud-learn-eureka-client
 ---
 spring:
   profiles: dev
-  application:
-    name: spring-cloud-learn-eureka-client
 server:
   port: 8080
 eureka:
@@ -22,3 +22,6 @@ management:
   endpoint:
     health:
       show-details: always
+user:
+  service:
+    name: spring-cloud-learn-user-microservice-server-provider
