@@ -1,13 +1,13 @@
-package com.nahsshan.user.service.impl;
+package com.nahsshan.eureka.controller;
 
+import com.nahsshan.common.response.Result;
 import com.nahsshan.user.common.entity.User;
-import com.nahsshan.user.mapper.UserMapper;
 import com.nahsshan.user.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -17,24 +17,29 @@ import java.util.List;
  * @author J.zhu
  * @date 2019/7/11
  */
-@Service
-public class UserServiceImpl implements UserService {
+@RestController
+@Slf4j
+public class FeignUserController implements UserService {
 
     @Autowired
-    private UserMapper userMapper;
+    UserService userService;
+
+    @Value("${server.port}")
+    private Integer port;
 
     @Override
     public Integer saveUser(User user) {
-        return userMapper.insert(user);
+        return userService.saveUser(user);
     }
 
     @Override
     public User getByUserId(Long userId) {
-        return userMapper.getByUserId(userId);
+        return userService.getByUserId(userId);
     }
 
     @Override
     public List<User> findAll() {
-        return userMapper.findAll();
+        return userService.findAll();
     }
+
 }

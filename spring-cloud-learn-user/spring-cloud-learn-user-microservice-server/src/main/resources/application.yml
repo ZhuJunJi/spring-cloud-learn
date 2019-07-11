@@ -3,13 +3,13 @@ spring:
     active: dev
   application:
     name: spring-cloud-learn-user-microservice-server-provider
----
 server:
   port: 10000
+---
 spring:
   profiles: dev
   datasource:
-    url: "jdbc:mysql://192.168.137.1:3306/nahsshan?serverTimezone=UTC"
+    url: "jdbc:mysql://192.168.137.100:3306/nahsshan?serverTimezone=UTC"
     username: "root"
     password: "123456"
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -29,3 +29,6 @@ management:
   endpoint:
     health:
       show-details: always
+user:
+  service:
+    name: spring-cloud-learn-user-microservice-server-provider

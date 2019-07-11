@@ -14,11 +14,12 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
+        <module>spring-cloud-learn-common</module>
         <module>spring-cloud-learn-eureka-server</module>
         <module>spring-cloud-learn-eureka-client</module>
         <module>spring-cloud-learn-ribbon</module>
         <module>spring-cloud-learn-user</module>
-        <module>spring-cloud-learn-common</module>
+        <module>spring-cloud-learn-zuul</module>
     </modules>
 
     <properties>

@@ -5,7 +5,9 @@ import com.nahsshan.user.common.entity.User;
 import com.nahsshan.user.service.UserService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +20,13 @@ import java.util.Random;
  * Created by J.zhu on 2019/7/11.
  */
 @RestController
+@Slf4j
 public class UserController {
+
+    @Value("${server.port}")
+    private Integer port;
+    @Value("${spring.cloud.client.ip-address}")
+    private String ipAddress;
 
     @Autowired
     private UserService userService;
@@ -36,6 +44,7 @@ public class UserController {
 
     @GetMapping("/user/get/{userId}")
     public User get(@PathVariable Long userId){
+        log.info("{}:{} UserController method;{} param:userId: {}",ipAddress,port,"get",userId);
         return userService.getByUserId(userId);
     }
 
@@ -49,9 +58,10 @@ public class UserController {
             // 设置 fallback 方法
             fallbackMethod = "fallbackForGetUsers"
     )
-    @GetMapping("/user/list")
+    @GetMapping("/user/findAll")
     public Collection<User> getUsers() throws InterruptedException {
         // 通过休眠来模拟执行时间
+        log.info("{}:{} UserController method;{}",ipAddress,port,"getUsers");
         long executeTime = random.nextInt(200);
         System.out.println("Execute Time : " + executeTime + " ms");
         Thread.sleep(executeTime);
@@ -63,6 +73,7 @@ public class UserController {
      * @return
      */
     public Collection<User> fallbackForGetUsers() {
+        log.info("{}:{} UserController method;{}",ipAddress,port,"fallbackForGetUsers");
         return Collections.emptyList();
     }
 }
