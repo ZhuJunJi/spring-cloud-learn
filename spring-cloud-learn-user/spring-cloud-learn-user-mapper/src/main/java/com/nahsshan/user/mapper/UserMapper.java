@@ -26,6 +26,8 @@ public interface UserMapper {
     User getByUserId(@Param("userId") Long userId);
     /**
      * 查询所有的用户列表
+     *
+     * 
      */
     List<User> findAll();
 

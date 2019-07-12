@@ -1,0 +1,20 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: spring-cloud-learn-zuul
+server:
+  port: 6060
+---
+spring:
+  profiles: dev
+  cloud:
+    nacos:
+      config:
+        file-extension: yml
+        server-addr: 192.168.137.1:8848
+        namespace: 51016d02-a351-49a0-acb8-6569b5ca5c72
+        ext-config[0]:
+          data-id: zuul-application.yml
+          group: ${spring.application.name}
+          refresh: true
