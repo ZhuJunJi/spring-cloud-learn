@@ -13,7 +13,7 @@ spring:
       config:
         file-extension: yml
         server-addr: 192.168.137.1:8848
-        namespace: 51016d02-a351-49a0-acb8-6569b5ca5c72
+        namespace: 63c8c314-574c-46cf-b4fb-50c9e304b2d3
         ext-config[0]:
           data-id: zuul-application.yml
           group: ${spring.application.name}

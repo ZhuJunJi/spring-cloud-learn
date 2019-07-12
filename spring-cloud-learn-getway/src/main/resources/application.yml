@@ -1,0 +1,32 @@
+server:
+  port: 7070
+spring:
+  profiles:
+    active: dev
+  application:
+    name: spring-cloud-learn-getway
+---
+spring:
+  profiles: dev
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          # 服务名小写-不配置服务名必须和Eureka一致大写
+          lower-case-service-id: true
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8000/eureka/,http://localhost:8001/eureka/,http://localhost:8002/eureka/
+  instance:
+    hostname: localhost
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
+management:
+  endpoint:
+    health:
+      show-details: always
