@@ -1,4 +1,4 @@
-package com.nahsshan.user.config;
+package com.nahsshan.common.db.config;
 
 import com.nahsshan.common.db.bean.MyRoutingDataSource;
 import com.nahsshan.common.db.enums.DBTypeEnum;

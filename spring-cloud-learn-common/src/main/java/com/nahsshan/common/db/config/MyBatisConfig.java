@@ -1,4 +1,4 @@
-package com.nahsshan.user.config;
+package com.nahsshan.common.db.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
