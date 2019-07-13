@@ -9,12 +9,25 @@ server:
 spring:
   profiles: dev
   datasource:
-    url: "jdbc:mysql://192.168.137.100:3306/nahsshan?serverTimezone=UTC"
-    username: "root"
-    password: "123456"
-    driver-class-name: com.mysql.cj.jdbc.Driver
-mybatis:
-  mapper-locations: "classpath:mapper/*.xml"
+    master:
+      jdbc-url: jdbc:mysql://192.168.137.100:3306/nahsshan
+      username: root
+      password: "123456"
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    # 只读账户
+    slave1:
+      jdbc-url: jdbc:mysql://192.168.137.100:3306/nahsshan
+      username: root
+      password: "123456"
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    # 只读账户
+    slave2:
+      jdbc-url: jdbc:mysql://192.168.137.100:3306/nahsshan
+      username: root
+      password: "123456"
+      driver-class-name: com.mysql.cj.jdbc.Driver
+#mybatis:
+#  mapper-locations: "classpath:mapper/*.xml"
 eureka:
   client:
     service-url:

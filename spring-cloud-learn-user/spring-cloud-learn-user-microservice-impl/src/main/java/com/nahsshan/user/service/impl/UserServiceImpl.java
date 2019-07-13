@@ -1,5 +1,7 @@
 package com.nahsshan.user.service.impl;
 
+import com.nahsshan.common.db.annotation.Master;
+import com.nahsshan.common.db.annotation.Slave;
 import com.nahsshan.user.common.entity.User;
 import com.nahsshan.user.mapper.UserMapper;
 import com.nahsshan.user.service.UserService;
@@ -24,11 +26,13 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
+    @Master
     public Integer saveUser(User user) {
         return userMapper.insert(user);
     }
 
     @Override
+    @Slave
     public User getByUserId(Long userId) {
         return userMapper.getByUserId(userId);
     }

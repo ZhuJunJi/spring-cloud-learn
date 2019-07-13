@@ -1,5 +1,6 @@
 package com.nahsshan.user.service;
 
+import com.nahsshan.common.db.annotation.Slave;
 import com.nahsshan.user.common.entity.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
