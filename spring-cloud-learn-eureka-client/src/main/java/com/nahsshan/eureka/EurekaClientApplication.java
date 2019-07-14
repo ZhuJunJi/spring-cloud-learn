@@ -25,8 +25,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
         NacosConfigAutoConfiguration.class
 })
 @EnableCircuitBreaker
-@EnableFeignClients(clients = UserService.class)
-@EnableDiscoveryClient
+@EnableFeignClients
 public class EurekaClientApplication {
 
     public static void main(String[] args) {

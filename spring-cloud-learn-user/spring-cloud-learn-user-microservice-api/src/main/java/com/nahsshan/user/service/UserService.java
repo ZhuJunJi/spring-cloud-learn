@@ -2,7 +2,6 @@ package com.nahsshan.user.service;
 
 import com.nahsshan.common.db.annotation.Slave;
 import com.nahsshan.user.common.entity.User;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,7 +14,6 @@ import java.util.List;
  * @author J.zhu
  * @date 2019/7/11
  */
-@FeignClient(name="${user.service.name}",fallback = UserServiceFallback.class)
 public interface UserService {
     /**
      * 保存用户
@@ -30,11 +28,11 @@ public interface UserService {
      * @return
      */
     @GetMapping("/user/get/{userId}")
-    User getByUserId(@PathVariable("userId") Long userId);
+    User getById(@PathVariable("userId") Long userId);
     /**
      * 查询所有的用户列表
      */
     @GetMapping("/user/findAll")
-    List<User> findAll();
+    List<User> findAll() throws InterruptedException;
 
 }

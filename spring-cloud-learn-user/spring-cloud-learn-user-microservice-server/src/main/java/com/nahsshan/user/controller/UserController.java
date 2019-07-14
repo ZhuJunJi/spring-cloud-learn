@@ -1,6 +1,5 @@
 package com.nahsshan.user.controller;
 
-import com.nahsshan.common.utils.SnowFlake;
 import com.nahsshan.user.common.entity.User;
 import com.nahsshan.user.service.UserService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
@@ -8,12 +7,12 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
+import javax.annotation.Resource;
 import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -21,31 +20,27 @@ import java.util.Random;
  */
 @RestController
 @Slf4j
-public class UserController {
+public class UserController implements UserService{
 
     @Value("${server.port}")
     private Integer port;
     @Value("${spring.cloud.client.ip-address}")
     private String ipAddress;
 
-    @Autowired
+    @Resource(name = "userServiceImpl")
     private UserService userService;
 
     private final static Random random = new Random();
 
-    @GetMapping("/user/save")
-    public Integer saveUser(){
-        User user=new User();
-        user.setUserId(SnowFlake.nextId());
-        user.setUserName("张三");
-        user.setAge(18);
+    @Override
+    public Integer saveUser(User user) {
         return userService.saveUser(user);
     }
 
-    @GetMapping("/user/get/{userId}")
-    public User get(@PathVariable Long userId){
+    @Override
+    public User getById(@PathVariable Long userId){
         log.info("{}:{} UserController method;{} param:userId: {}",ipAddress,port,"get",userId);
-        return userService.getByUserId(userId);
+        return userService.getById(userId);
     }
 
     /**
@@ -58,8 +53,8 @@ public class UserController {
             // 设置 fallback 方法
             fallbackMethod = "fallbackForGetUsers"
     )
-    @GetMapping("/user/findAll")
-    public Collection<User> getUsers() throws InterruptedException {
+    @Override
+    public List<User> findAll() throws InterruptedException {
         // 通过休眠来模拟执行时间
         log.info("{}:{} UserController method;{}",ipAddress,port,"getUsers");
         long executeTime = random.nextInt(200);
@@ -72,8 +67,9 @@ public class UserController {
      * 超过100毫秒就返回空集合
      * @return
      */
-    public Collection<User> fallbackForGetUsers() {
+    public List<User> fallbackForGetUsers() {
         log.info("{}:{} UserController method;{}",ipAddress,port,"fallbackForGetUsers");
         return Collections.emptyList();
     }
+
 }

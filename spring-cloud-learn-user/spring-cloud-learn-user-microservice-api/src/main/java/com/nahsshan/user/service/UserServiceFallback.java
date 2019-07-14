@@ -18,7 +18,7 @@ public class UserServiceFallback implements UserService{
     }
 
     @Override
-    public User getByUserId(Long userId) {
+    public User getById(Long userId) {
         return new User();
     }
 

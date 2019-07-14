@@ -23,17 +23,6 @@
             <groupId>com.shanshan</groupId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
-        <!-- 依赖 Spring Cloud Netflix Hystrix -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-        </dependency>
-        <!-- 依赖 Spring Cloud eureka client -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
     </dependencies>
     
     <build>

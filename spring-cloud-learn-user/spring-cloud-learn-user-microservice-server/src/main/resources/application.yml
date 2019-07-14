@@ -42,6 +42,3 @@ management:
   endpoint:
     health:
       show-details: always
-user:
-  service:
-    name: spring-cloud-learn-user-microservice-server-provider

@@ -19,7 +19,7 @@ import java.util.List;
  * @author J.zhu
  * @date 2019/7/11
  */
-@Service
+@Service("userServiceImpl")
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Slave
-    public User getByUserId(Long userId) {
+    public User getById(Long userId) {
         return userMapper.getByUserId(userId);
     }
 
