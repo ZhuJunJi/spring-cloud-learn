@@ -2,8 +2,6 @@ package com.nahsshan.common.db.bean;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Component;
-import sun.misc.Contended;
 
 /**
  *

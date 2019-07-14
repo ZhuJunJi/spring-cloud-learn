@@ -1,0 +1,32 @@
+version: '3.0'
+services:
+  eureka_server1:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - JAR_FILE=spring-cloud-learn-eureka-server.jar
+    container_name: eureka_server1
+    ports:
+      - ${SERVER_PORT1}:8080
+    command: --server.port=8080 --spring.profiles.active=${SPRING_PROFILES_ACTIVE1}
+  eureka_server2:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - JAR_FILE=spring-cloud-learn-eureka-server.jar
+    container_name: eureka_server2
+    ports:
+      - ${SERVER_PORT2}:8080
+    command: --server.port=8080 --spring.profiles.active=${SPRING_PROFILES_ACTIVE2}
+  eureka_server3:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - JAR_FILE=spring-cloud-learn-eureka-server.jar
+    container_name: eureka_server3
+    ports:
+      - ${SERVER_PORT3}:8080
+    command: --server.port=8080 --spring.profiles.active=${SPRING_PROFILES_ACTIVE3}
