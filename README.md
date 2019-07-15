@@ -25,12 +25,18 @@ spring-cloud-learn
 - Mysql5.7+
 - Redis
 - Nacos
+- Docker
+- Docker Compose
 
 ### 开发环境搭建
 
 环境搭建和系统部署
 
 ### 资源下载
-
 - [Mysql主从](https://github.com/ZhuJunJi/mysql-slave "Mysql主从")
 - [Redis哨兵](https://github.com/ZhuJunJi/redis-sentinel "Redis哨兵")
+- [Docker](https://docs.docker.com/install/linux/docker-ce/centos/ "Docker")
+- [Docker Compose](https://docs.docker.com/compose/install/ "Docker Compose")
+- [Maven](http://maven.apache.org/download.cgi "Maven")
+- [Nacos](https://github.com/alibaba/nacos/releases "Nacos")
+- [Nacos 集群搭建](https://nacos.io/zh-cn/docs/cluster-mode-quick-start.html "Nacos 集群搭建")

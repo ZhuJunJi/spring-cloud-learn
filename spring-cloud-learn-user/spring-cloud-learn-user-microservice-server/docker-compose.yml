@@ -1,0 +1,12 @@
+version: '3.0'
+services:
+  user_server:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - JAR_FILE=spring-cloud-learn-user-microservice-server
+    container_name: user_server
+    ports:
+      - ${SERVER_PORT}:8080
+    command: --server.port=8080 --spring.profiles.active=${SPRING_PROFILES_ACTIVE}
