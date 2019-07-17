@@ -1,0 +1,22 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: spring-cloud-learn-user-microservice-server-provider
+server:
+  port: 6060
+---
+spring:
+  profiles: dev
+  cloud:
+    nacos:
+      config:
+        file-extension: yml
+        server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
+        namespace: 7acc1bdb-904b-4c76-879c-098a35626c54
+        ext-config[0]:
+          data-id: user-application.yml
+          group: ${spring.application.name}
+          refresh: true
+      discovery:
+        namespace: 7acc1bdb-904b-4c76-879c-098a35626c54
