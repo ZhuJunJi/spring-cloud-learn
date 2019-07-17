@@ -24,6 +24,7 @@
         <java.version>1.8</java.version>
         <springboot.version>2.1.4.RELEASE</springboot.version>
         <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
+        <spring-cloud-nacos.version>0.9.0.RELEASE</spring-cloud-nacos.version>
     </properties>
 
     <dependencyManagement>
@@ -39,6 +40,13 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+                <version>${spring-cloud-nacos.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

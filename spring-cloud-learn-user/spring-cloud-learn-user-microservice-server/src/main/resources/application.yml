@@ -26,18 +26,23 @@ spring:
       username: root
       password: "123456"
       driver-class-name: com.mysql.cj.jdbc.Driver
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
 #mybatis:
 #  mapper-locations: "classpath:mapper/*.xml"
-eureka:
-  client:
-    service-url:
-      # 注册到注册中心
-      defaultZone: http://localhost:8000/eureka/,http://localhost:8001/eureka/,http://localhost:8002/eureka/
-    registry-fetch-interval-seconds: 10
-  instance:
-    hostname: localhost
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+# 使用Eureka服务注册中心
+#eureka:
+#  client:
+#    service-url:
+#      # 注册到注册中心
+#      defaultZone: http://localhost:8000/eureka/,http://localhost:8001/eureka/,http://localhost:8002/eureka/
+#    registry-fetch-interval-seconds: 10
+#  instance:
+#    hostname: localhost
+#    prefer-ip-address: true
+#    instance-id: ${spring.cloud.client.ip-address}:${server.port}
 management:
   endpoint:
     health:

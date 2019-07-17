@@ -6,18 +6,24 @@ spring:
 ---
 spring:
   profiles: dev
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
+        metadata:
+          target-version: 1.0.0
 server:
   port: 8080
-eureka:
-  client:
-    service-url:
-      # 注册到注册中心
-      defaultZone: http://192.168.137.1:8000/eureka/,http://192.168.137.1:8001/eureka/,http://192.168.137.1:8002/eureka/
-    registry-fetch-interval-seconds: 10
-  instance:
-    hostname: localhost
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+#eureka:
+#  client:
+#    service-url:
+#      # 注册到注册中心
+#      defaultZone: http://192.168.137.1:8000/eureka/,http://192.168.137.1:8001/eureka/,http://192.168.137.1:8002/eureka/
+#    registry-fetch-interval-seconds: 10
+#  instance:
+#    hostname: localhost
+#    prefer-ip-address: true
+#    instance-id: ${spring.cloud.client.ip-address}:${server.port}
 management:
   endpoint:
     health:

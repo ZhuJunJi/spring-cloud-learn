@@ -26,6 +26,7 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
         NacosConfigAutoConfiguration.class
 })
 @EnableHystrix
+//@EnableDiscoveryClient
 @EnableDiscoveryClient
 public class UserServerProviderApplication {
 

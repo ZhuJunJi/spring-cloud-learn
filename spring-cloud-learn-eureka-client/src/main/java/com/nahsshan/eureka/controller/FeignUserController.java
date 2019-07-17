@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class FeignUserController {
 
+//    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
-    FeignUserService feignUserService;
+    private FeignUserService feignUserService;
 
     @Value("${server.port}")
     private Integer port;
