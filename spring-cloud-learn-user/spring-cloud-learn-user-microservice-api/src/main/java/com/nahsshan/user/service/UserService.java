@@ -1,6 +1,5 @@
 package com.nahsshan.user.service;
 
-import com.nahsshan.common.db.annotation.Slave;
 import com.nahsshan.user.common.entity.User;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

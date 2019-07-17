@@ -9,9 +9,11 @@ spring:
   cloud:
     nacos:
       discovery:
+        namespace: 76c05fec-31cb-4c9d-a97b-cbabbbb7c56b
         server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
         metadata:
           target-version: 1.0.0
+
 server:
   port: 8080
 #eureka:
