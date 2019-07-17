@@ -1,6 +1,5 @@
 package com.nahsshan.eureka;
 
-import com.alibaba.boot.nacos.config.autoconfigure.NacosConfigAutoConfiguration;
 import com.nahsshan.eureka.ribbon.NacosFinalRule;
 import com.netflix.loadbalancer.IRule;
 import org.redisson.spring.starter.RedissonAutoConfiguration;
@@ -9,7 +8,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
+import org.springframework.cloud.alibaba.nacos.ribbon.RibbonNacosAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
@@ -23,13 +24,12 @@ import org.springframework.context.annotation.Bean;
         DataSourceAutoConfiguration.class,
         RedissonAutoConfiguration.class,
         RedisAutoConfiguration.class,
-        KafkaAutoConfiguration.class,
-        NacosConfigAutoConfiguration.class
+        KafkaAutoConfiguration.class
 })
 //@EnableCircuitBreaker
 @EnableFeignClients
 @EnableDiscoveryClient
-//@RibbonClients(defaultConfiguration = NacosRibbonClientExtendConfiguration.class)
+@RibbonClients(defaultConfiguration = RibbonNacosAutoConfiguration.class)
 public class EurekaClientApplication {
 
     public static void main(String[] args) {

@@ -30,6 +30,8 @@ spring:
     nacos:
       discovery:
         server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
+        metadata:
+          version: 1.0.0
 #mybatis:
 #  mapper-locations: "classpath:mapper/*.xml"
 # 使用Eureka服务注册中心

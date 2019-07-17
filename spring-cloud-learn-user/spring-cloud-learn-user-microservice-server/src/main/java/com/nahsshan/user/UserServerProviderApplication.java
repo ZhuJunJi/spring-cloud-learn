@@ -1,6 +1,5 @@
 package com.nahsshan.user;
 
-import com.alibaba.boot.nacos.config.autoconfigure.NacosConfigAutoConfiguration;
 import org.mybatis.spring.annotation.MapperScan;
 import org.redisson.spring.starter.RedissonAutoConfiguration;
 import org.springframework.boot.SpringApplication;
@@ -22,11 +21,9 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
         exclude = {
         RedissonAutoConfiguration.class,
         RedisAutoConfiguration.class,
-        KafkaAutoConfiguration.class,
-        NacosConfigAutoConfiguration.class
+        KafkaAutoConfiguration.class
 })
 @EnableHystrix
-//@EnableDiscoveryClient
 @EnableDiscoveryClient
 public class UserServerProviderApplication {
 
