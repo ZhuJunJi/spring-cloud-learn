@@ -7,8 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.hystrix.EnableHystrix;
-
 /**
  *
  * @author J.zhu
@@ -23,7 +21,6 @@ import org.springframework.cloud.netflix.hystrix.EnableHystrix;
         RedisAutoConfiguration.class,
         KafkaAutoConfiguration.class
 })
-@EnableHystrix
 @EnableDiscoveryClient
 public class UserServerProviderApplication {
 

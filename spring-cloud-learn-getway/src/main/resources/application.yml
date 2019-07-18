@@ -13,7 +13,6 @@ spring:
       discovery:
         locator:
           enabled: true
-          # 服务名小写-不配置服务名必须和Eureka一致大写
           lower-case-service-id: true
     nacos:
       discovery:

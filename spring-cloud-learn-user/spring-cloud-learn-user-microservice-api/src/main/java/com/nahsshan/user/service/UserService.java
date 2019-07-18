@@ -25,6 +25,6 @@ public interface UserService {
     /**
      * 查询所有的用户列表
      */
-    List<User> findAll() throws InterruptedException;
+    List<User> findAll();
 
 }

@@ -33,6 +33,7 @@
         <fastjson.version>1.2.58</fastjson.version>
         <mybatis-spring-boot-starter.version>2.0.1</mybatis-spring-boot-starter.version>
         <alibaba-sentinel.version>0.9.0.RELEASE</alibaba-sentinel.version>
+        <sentinel-datasource-nacos.version>1.6.2</sentinel-datasource-nacos.version>
     </properties>
 
     <dependencyManagement>
@@ -105,6 +106,12 @@
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-sentinel</artifactId>
                 <version>${alibaba-sentinel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-datasource-nacos</artifactId>
+                <version>${sentinel-datasource-nacos.version}</version>
             </dependency>
 
 

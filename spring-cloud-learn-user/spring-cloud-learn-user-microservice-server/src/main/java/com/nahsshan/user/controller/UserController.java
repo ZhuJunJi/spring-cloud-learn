@@ -1,10 +1,9 @@
 package com.nahsshan.user.controller;
 
+import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.nahsshan.common.response.Result;
 import com.nahsshan.user.common.entity.User;
 import com.nahsshan.user.service.UserService;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -38,42 +37,26 @@ public class UserController{
     }
 
     @GetMapping("/user/get/{userId}")
+    @SentinelResource(value="/user/get",blockHandler="getById",blockHandlerClass=UserControllerBlock.class)
     public Result getById(@PathVariable("userId") Long userId){
         log.info("{}:{} UserController method;{} param:userId: {}",ipAddress,port,"get",userId);
         User user = userService.getById(userId);
-        throw new RuntimeException("模拟失败");
-//        return Result.newSuccessResult(user);
+//        throw new RuntimeException("模拟失败");
+        return Result.newSuccessResult(user);
     }
 
     /**
      * 获取所有用户列表
      * @return
      */
-    @HystrixCommand(
-            // Command 配置,设置操作时间为 100 毫秒
-            commandProperties = {@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "100")},
-            // 设置 fallback 方法
-            fallbackMethod = "fallbackForGetUsers"
-    )
-
     @GetMapping("/user/findAll")
-    public Result findAll() throws InterruptedException {
+    public Result findAll() {
         // 通过休眠来模拟执行时间
         log.info("{}:{} UserController method;{}",ipAddress,port,"getUsers");
         long executeTime = random.nextInt(200);
         System.out.println("Execute Time : " + executeTime + " ms");
-        Thread.sleep(executeTime);
         List<User> userlIst = userService.findAll();
         return Result.newSuccessResult(userlIst);
-    }
-
-    /**
-     * 超过100毫秒就返回空集合
-     * @return
-     */
-    public List<User> fallbackForGetUsers() {
-        log.info("{}:{} UserController method;{}",ipAddress,port,"fallbackForGetUsers");
-        return Collections.emptyList();
     }
 
 }
