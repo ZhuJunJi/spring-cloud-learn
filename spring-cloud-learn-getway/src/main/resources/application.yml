@@ -15,14 +15,19 @@ spring:
           enabled: true
           # 服务名小写-不配置服务名必须和Eureka一致大写
           lower-case-service-id: true
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://192.168.137.1:8000/eureka/,http://192.168.137.1:8001/eureka/,http://192.168.137.1:8002/eureka/
-  instance:
-    hostname: localhost
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    nacos:
+      discovery:
+        namespace: 7acc1bdb-904b-4c76-879c-098a35626c54
+        server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
+
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://192.168.137.1:8000/eureka/,http://192.168.137.1:8001/eureka/,http://192.168.137.1:8002/eureka/
+#  instance:
+#    hostname: localhost
+#    prefer-ip-address: true
+#    instance-id: ${spring.cloud.client.ip-address}:${server.port}
 logging:
   level:
     org.springframework.cloud.gateway: debug
