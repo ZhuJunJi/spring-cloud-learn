@@ -21,6 +21,20 @@ public class Result<T> implements Serializable {
 
     /**
      * 返回成功的结果
+     * @param <T>data 需返回的结果
+     * @param message 返回信息
+     * @return Result<T>
+     */
+    public static <T> Result<T> newSuccessResult(T data,String message){
+        Result<T> result = new Result<>();
+        result.isSuccess = true;
+        result.data = data;
+        result.message = message;
+        return result;
+    }
+
+    /**
+     * 返回成功的结果
      * @param data 需返回的结果
      * @param <T>
      * @return

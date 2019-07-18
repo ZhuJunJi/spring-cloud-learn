@@ -1,13 +1,13 @@
 package com.nahsshan.user.controller;
 
+import com.nahsshan.common.response.Result;
 import com.nahsshan.user.common.entity.User;
 import com.nahsshan.user.service.UserService;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Collections;
@@ -19,7 +19,7 @@ import java.util.Random;
  */
 @RestController
 @Slf4j
-public class UserController implements UserService{
+public class UserController{
 
     @Value("${server.port}")
     private Integer port;
@@ -31,15 +31,18 @@ public class UserController implements UserService{
 
     private final static Random random = new Random();
 
-    @Override
-    public Integer saveUser(User user) {
-        return userService.saveUser(user);
+    @PostMapping("/user/save")
+    public Result saveUser(@RequestBody User user) {
+        Integer i = userService.saveUser(user);
+        return Result.newSuccessResult(i);
     }
 
-    @Override
-    public User getById(@PathVariable Long userId){
+    @GetMapping("/user/get/{userId}")
+    public Result getById(@PathVariable("userId") Long userId){
         log.info("{}:{} UserController method;{} param:userId: {}",ipAddress,port,"get",userId);
-        return userService.getById(userId);
+        User user = userService.getById(userId);
+        throw new RuntimeException("模拟失败");
+//        return Result.newSuccessResult(user);
     }
 
     /**
@@ -52,14 +55,16 @@ public class UserController implements UserService{
             // 设置 fallback 方法
             fallbackMethod = "fallbackForGetUsers"
     )
-    @Override
-    public List<User> findAll() throws InterruptedException {
+
+    @GetMapping("/user/findAll")
+    public Result findAll() throws InterruptedException {
         // 通过休眠来模拟执行时间
         log.info("{}:{} UserController method;{}",ipAddress,port,"getUsers");
         long executeTime = random.nextInt(200);
         System.out.println("Execute Time : " + executeTime + " ms");
         Thread.sleep(executeTime);
-        return userService.findAll();
+        List<User> userlIst = userService.findAll();
+        return Result.newSuccessResult(userlIst);
     }
 
     /**

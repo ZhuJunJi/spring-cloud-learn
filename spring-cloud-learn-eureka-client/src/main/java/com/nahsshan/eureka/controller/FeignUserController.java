@@ -28,8 +28,7 @@ public class FeignUserController {
 
     @GetMapping("user/get/{userId}")
     private Result getById(@PathVariable("userId") Long userId) {
-        User user = feignUserService.getById(userId);
-        return Result.newSuccessResult(user);
+        return feignUserService.get(userId);
     }
 
 

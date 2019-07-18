@@ -1,10 +1,6 @@
 package com.nahsshan.user.service;
 
 import com.nahsshan.user.common.entity.User;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -19,19 +15,16 @@ public interface UserService {
      * @param user
      * @
      */
-    @PostMapping("/user/save")
-    Integer saveUser(@RequestBody User user);
+    Integer saveUser(User user);
     /**
      * 查询用户信息
      * @param userId
      * @return
      */
-    @GetMapping("/user/get/{userId}")
-    User getById(@PathVariable("userId") Long userId);
+    User getById(Long userId);
     /**
      * 查询所有的用户列表
      */
-    @GetMapping("/user/findAll")
     List<User> findAll() throws InterruptedException;
 
 }

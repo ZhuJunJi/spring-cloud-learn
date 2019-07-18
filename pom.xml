@@ -16,6 +16,7 @@
         <module>spring-cloud-learn-user</module>
         <module>spring-cloud-learn-zuul</module>
         <module>spring-cloud-learn-getway</module>
+        <module>spring-cloud-learn-sentinel</module>
     </modules>
 
     <properties>
@@ -31,6 +32,7 @@
         <joda-money.version>1.0.1</joda-money.version>
         <fastjson.version>1.2.58</fastjson.version>
         <mybatis-spring-boot-starter.version>2.0.1</mybatis-spring-boot-starter.version>
+        <alibaba-sentinel.version>0.9.0.RELEASE</alibaba-sentinel.version>
     </properties>
 
     <dependencyManagement>
@@ -91,6 +93,20 @@
                 <artifactId>joda-money</artifactId>
                 <version>${joda-money.version}</version>
             </dependency>
+
+            <!-- Sentinel -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+                <version>${alibaba-sentinel.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-sentinel</artifactId>
+                <version>${alibaba-sentinel.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>
