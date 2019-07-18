@@ -26,6 +26,17 @@ spring:
         server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
         metadata: 
           version: 1.0.0
+    sentinel:
+      transport:
+        dashboard: 192.168.137.1:7200
+      datasource:
+        ds:
+          nacos:
+            namespace: 76c05fec-31cb-4c9d-a97b-cbabbbb7c56b
+            server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
+            dataId: sentinel.json
+            groupId: sentinel
+            ruleType: flow
 #mybatis:
 #  mapper-locations: "classpath:mapper/*.xml"
 # eureka:
@@ -42,4 +53,18 @@ management:
   endpoint:
     health:
       show-details: always
+```
+## sentinel 限流策略配置
+```json
+[
+    {
+        "resource": "/user/get",
+        "limitApp": "default",
+        "grade": 1,
+        "count": 1,
+        "strategy": 0,
+        "controlBehavior": 0,
+        "clusterMode": false
+    }
+]
 ```
