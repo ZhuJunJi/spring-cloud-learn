@@ -1,6 +1,7 @@
 package com.nahsshan.user.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
+import com.nahsshan.common.redisson.utils.RedisUtil;
 import com.nahsshan.common.response.Result;
 import com.nahsshan.user.common.entity.User;
 import com.nahsshan.user.service.UserService;
@@ -20,7 +21,7 @@ import java.util.Random;
 @RestController
 @Slf4j
 public class UserController{
-
+    
     @Value("${server.port}")
     private Integer port;
     @Value("${spring.cloud.client.ip-address}")
@@ -42,6 +43,7 @@ public class UserController{
     public Result getById(@PathVariable("userId") Long userId){
         log.info("{}:{} UserController method;{} param:userId: {}",ipAddress,port,"get",userId);
         User user = userService.getById(userId);
+        RedisUtil.set("user",user);
 //        throw new RuntimeException("模拟失败");
         return Result.newSuccessResult(user);
     }
