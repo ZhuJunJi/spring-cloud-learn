@@ -1,16 +1,36 @@
 spring:
-  profiles:
-    active: dev
   application:
     name: spring-cloud-learn-user-microservice-server-provider
 server:
-  port: 6060
+  port: 10000
+logging:
+  config: classpath:logback.xml
+
 ---
 spring:
   profiles: dev
   cloud:
     nacos:
       config:
+        file-extension: yaml
+        server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
+        namespace: 7acc1bdb-904b-4c76-879c-098a35626c54
+        ext-config[0]:
+          data-id: ${spring.application.name}.yml
+          group: ${spring.application.name}
+          refresh: true
+        ext-config[1]:
+          data-id: ${spring.application.name}-mysql.yml
+          group: ${spring.application.name}
+          refresh: true
+
+---
+spring:
+  profiles: prd
+  cloud:
+    nacos:
+      config:
+        file-extension: yaml
         server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
         namespace: 7acc1bdb-904b-4c76-879c-098a35626c54
         ext-config[0]:

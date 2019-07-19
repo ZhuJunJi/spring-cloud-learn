@@ -5,6 +5,7 @@ import com.nahsshan.common.db.enums.DBTypeEnum;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -25,18 +26,21 @@ import java.util.Map;
 public class DataSourceConfig {
     @Bean
     @ConfigurationProperties("spring.datasource.master")
+    @RefreshScope
     public DataSource masterDataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
     @ConfigurationProperties("spring.datasource.slave1")
+    @RefreshScope
     public DataSource slave1DataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
     @ConfigurationProperties("spring.datasource.slave2")
+    @RefreshScope
     public DataSource slave2DataSource() {
         return DataSourceBuilder.create().build();
     }
