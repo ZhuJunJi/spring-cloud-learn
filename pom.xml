@@ -16,7 +16,6 @@
         <module>spring-cloud-learn-user</module>
         <module>spring-cloud-learn-zuul</module>
         <module>spring-cloud-learn-getway</module>
-        <module>spring-cloud-learn-sentinel</module>
     </modules>
 
     <properties>

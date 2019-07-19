@@ -4,6 +4,18 @@ Spring Cloud 越来越流行需要学习了解
 ## 项目介绍
    项目使用 Nacos 作为远程配置中心实现 one jar one docker run everywhere
    实现Spring Cloud 集成 Eureka、Ribbon、Feign、Zuul、Getway、Mybatis
+
+### Spring Cloud 与 Spring Boot 版本
+| Spring Cloud | Spring Boot |
+| :----: | :----: |
+| Greenwich | 2.1.x |
+| Finchley | 2.0.x |
+| Edgware | 1.5.x |
+| Dalston | 1.5.x |
+| Camden | 1.4.x |
+| Brixton | 1.3.x |
+| Angel | 1.2.x |
+
 ### 项目结构
 ```lua
 spring-cloud-learn
@@ -18,7 +30,7 @@ spring-cloud-learn
 |    ├── spring-cloud-learn-user-mapper -- 用户Dao
 |    ├── spring-cloud-learn-user-microservice-api -- 用户功能接口包
 |    ├── spring-cloud-learn-user-microservice-impl --用户功能服务包
-|    └── spring-cloud-learn-user-microservice-server -- 用户权限系统及SSO服务端[端口:1111]
+|    └── spring-cloud-learn-user-microservice-server -- 用户模块微服务提供者
 ```
 #### 开发环境：
 - Jdk8+
@@ -42,6 +54,7 @@ spring-cloud-learn
 - [Nacos](https://github.com/alibaba/nacos/releases "Nacos")
 - [Nacos 集群搭建](https://nacos.io/zh-cn/docs/cluster-mode-quick-start.html "Nacos 集群搭建")
 - [Alibaba Sentinel](https://github.com/alibaba/Sentinel "Alibaba Sentinel")
+![Alibaba Sentinel 与 Hystrix 的比较](project-bootstrap/Sentinel-Hystrix.png)
 
 ### Nacos配置规范
 用namespace来区分各个环境的配置
