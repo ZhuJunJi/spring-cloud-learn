@@ -25,6 +25,7 @@ spring-cloud-learn
 - Mysql5.7+
 - Redis
 - Nacos
+- Sentinel
 - Docker
 - Docker Compose
 
@@ -40,3 +41,17 @@ spring-cloud-learn
 - [Maven](http://maven.apache.org/download.cgi "Maven")
 - [Nacos](https://github.com/alibaba/nacos/releases "Nacos")
 - [Nacos 集群搭建](https://nacos.io/zh-cn/docs/cluster-mode-quick-start.html "Nacos 集群搭建")
+- [Alibaba Sentinel](https://github.com/alibaba/Sentinel "Alibaba Sentinel")
+
+### Nacos配置规范
+用namespace来区分各个环境的配置
+
+配置文件名称空间：           dev、test、prd
+
+Sentinel流控策略名称空间：   sentinel-dev、sentinel-test、sentinel-prd
+
+dataId:初始化配置文件统一为： ${spring.application.name}.yml
+
+其他如mysql、redis：        ${spring.application.name}-mysql.yml、${spring.application.name}-redis.yml
+
+group统一为：               ${spring.application.name}

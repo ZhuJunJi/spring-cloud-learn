@@ -9,12 +9,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
 /**
- * Created by J.zhu on 2019/7/11.
+ *
+ * @author J.zhu
+ * @date 2019/7/11
  */
 @RestController
 @Slf4j

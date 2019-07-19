@@ -4,7 +4,14 @@ import com.alibaba.csp.sentinel.slots.block.BlockException;
 import com.google.common.collect.Lists;
 import com.nahsshan.common.response.Result;
 import com.nahsshan.user.common.entity.User;
+import lombok.extern.slf4j.Slf4j;
 
+/**
+ *
+ * @author J.zhu
+ * @date 2019/7/19
+ */
+@Slf4j
 public class UserControllerBlock{
 
     public static Result saveUser(User user,BlockException ex) {
