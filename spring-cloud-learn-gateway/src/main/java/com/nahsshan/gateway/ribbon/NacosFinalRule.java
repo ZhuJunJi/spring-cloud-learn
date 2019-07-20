@@ -1,4 +1,4 @@
-package com.nahsshan.getway.ribbon;
+package com.nahsshan.gateway.ribbon;
 
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;

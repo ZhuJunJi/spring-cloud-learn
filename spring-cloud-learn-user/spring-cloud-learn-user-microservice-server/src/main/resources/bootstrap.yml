@@ -26,6 +26,9 @@ spring:
           data-id: ${spring.application.name}-redis.yml
           group: ${spring.application.name}
           refresh: true
+    sentinel:
+      transport:
+        dashboard:
 ---
 spring:
   profiles: prd

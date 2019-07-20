@@ -28,8 +28,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         scanBasePackages={"com.nahsshan.common","com.nahsshan.user"},
         exclude = {
                 DataSourceAutoConfiguration.class,
-//                RedissonAutoConfiguration.class,
-//                RedisAutoConfiguration.class,
                 KafkaAutoConfiguration.class
 })
 @EnableDiscoveryClient

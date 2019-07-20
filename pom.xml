@@ -15,7 +15,7 @@
         <module>spring-cloud-learn-ribbon</module>
         <module>spring-cloud-learn-user</module>
         <module>spring-cloud-learn-zuul</module>
-        <module>spring-cloud-learn-getway</module>
+        <module>spring-cloud-learn-gateway</module>
     </modules>
 
     <properties>
