@@ -112,10 +112,11 @@ public class CacheConfiguration {
                     index.startsWith("redis://") ? index : "redis://" + index));
 
             SentinelServersConfig serverConfig = config.useSentinelServers()
+
                     .addSentinelAddress(newNodes.toArray(new String[0]))
                     .setMasterName(redisConfig.getSentinel().getMaster())
                     .setReadMode(ReadMode.SLAVE)
-                    .setFailedAttempts(redisConfig.getSentinel().getFailMax())
+                    .setFailedSlaveCheckInterval(redisConfig.getSentinel().getFailMax())
                     .setTimeout(redisConfig.getTimeout())
                     .setMasterConnectionPoolSize(redisConfig.getPool().getSize())
                     .setSlaveConnectionPoolSize(redisConfig.getPool().getSize());

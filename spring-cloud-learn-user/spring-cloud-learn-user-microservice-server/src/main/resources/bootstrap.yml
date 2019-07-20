@@ -13,7 +13,7 @@ spring:
       config:
         file-extension: yaml
         server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
-        namespace: 7acc1bdb-904b-4c76-879c-098a35626c54
+        namespace: 76c05fec-31cb-4c9d-a97b-cbabbbb7c56b
         ext-config[0]:
           data-id: ${spring.application.name}.yml
           group: ${spring.application.name}
@@ -22,41 +22,10 @@ spring:
           data-id: ${spring.application.name}-mysql.yml
           group: ${spring.application.name}
           refresh: true
-  redis:
-    database: 0
-    password: "123456"
-    timeout: 3000
-    # sentinel/cluster/single
-    mode: sentinel
-    # 连接池配置
-    pool:
-      max-idle: 16
-      min-idle: 8
-      max-active: 8
-      max-wait: 3000
-      conn-timeout: 3000
-      so-timeout: 3000
-      size: 30
-    # 单机配置
-    single:
-      address: 192.168.137.100:6379
-    # 集群配置
-    cluster:
-      scan-interval: 1000
-      nodes: 192.168.137.100:6379,192.168.137.100:6380,192.168.137.100:6381
-      read-mode: SLAVE
-      retry-attempts: 3
-      failed-attempts: 3
-      slave-connection-pool-size: 10
-      master-connection-pool-size: 10
-      retry-interval: 1500
-    # 哨兵配置
-    sentinel:
-      master: mymaster
-      nodes: 192.168.137.100:26379,192.168.137.100:26380,192.168.137.100:26381
-      master-onlyWrite: true
-      fail-max: 3
-
+        ext-config[2]:
+          data-id: ${spring.application.name}-redis.yml
+          group: ${spring.application.name}
+          refresh: true
 ---
 spring:
   profiles: prd
@@ -65,12 +34,16 @@ spring:
       config:
         file-extension: yaml
         server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
-        namespace: 7acc1bdb-904b-4c76-879c-098a35626c54
+        namespace: 76c05fec-31cb-4c9d-a97b-cbabbbb7c56b
         ext-config[0]:
           data-id: ${spring.application.name}.yml
           group: ${spring.application.name}
           refresh: true
         ext-config[1]:
           data-id: ${spring.application.name}-mysql.yml
+          group: ${spring.application.name}
+          refresh: true
+        ext-config[2]:
+          data-id: ${spring.application.name}-redis.yml
           group: ${spring.application.name}
           refresh: true

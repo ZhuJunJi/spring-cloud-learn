@@ -2,10 +2,12 @@ package com.nahsshan.user.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.nahsshan.common.redisson.utils.RedisUtil;
+import com.nahsshan.common.redisson.utils.RedissonLockUtil;
 import com.nahsshan.common.response.Result;
 import com.nahsshan.user.common.entity.User;
 import com.nahsshan.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +43,6 @@ public class UserController{
     @GetMapping("/user/get/{userId}")
     @SentinelResource(value="/user/get",blockHandler="getById",blockHandlerClass=UserControllerBlock.class)
     public Result getById(@PathVariable("userId") Long userId){
-        log.info("{}:{} UserController method;{} param:userId: {}",ipAddress,port,"get",userId);
         User user = userService.getById(userId);
         RedisUtil.set("user",user);
 //        throw new RuntimeException("模拟失败");
@@ -61,5 +62,4 @@ public class UserController{
         List<User> userlIst = userService.findAll();
         return Result.newSuccessResult(userlIst);
     }
-
 }
