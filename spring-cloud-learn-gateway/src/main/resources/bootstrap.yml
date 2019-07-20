@@ -1,0 +1,20 @@
+server:
+  port: 7070
+spring:
+  profiles:
+    active: dev
+  application:
+    name: spring-cloud-learn-gateway
+---
+spring:
+  profiles: dev
+  cloud:
+    nacos:
+      config:
+        file-extension: yaml
+        server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
+        namespace: 76c05fec-31cb-4c9d-a97b-cbabbbb7c56b
+        ext-config[0]:
+          data-id: ${spring.application.name}.yml
+          group: ${spring.application.name}
+          refresh: true
