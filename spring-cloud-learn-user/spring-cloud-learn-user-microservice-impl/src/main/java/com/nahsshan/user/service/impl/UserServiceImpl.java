@@ -1,6 +1,8 @@
 package com.nahsshan.user.service.impl;
 
 import com.nahsshan.common.db.annotation.Master;
+import com.nahsshan.common.redisson.annotation.LockKey;
+import com.nahsshan.common.redisson.annotation.RedisLock;
 import com.nahsshan.user.common.entity.User;
 import com.nahsshan.user.mapper.UserMapper;
 import com.nahsshan.user.service.UserService;
@@ -28,7 +30,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Master
-    public User getById(Long userId) {
+    @RedisLock
+    public User getById(@LockKey Long userId) {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return userMapper.getByUserId(userId);
     }
 

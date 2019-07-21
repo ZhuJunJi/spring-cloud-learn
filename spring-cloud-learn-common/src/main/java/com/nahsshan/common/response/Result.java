@@ -69,6 +69,17 @@ public class Result<T> implements Serializable {
         return result;
     }
 
+    /**
+     * 返回成功的结果
+     * @param <T>
+     * @return
+     */
+    public static <T> Result<T> newFailureResult(){
+        Result<T> result = new Result<>();
+        result.isSuccess = false;
+        return result;
+    }
+
     public boolean isSuccess() {
         return isSuccess;
     }
