@@ -3,7 +3,7 @@
 Spring Cloud 越来越流行需要学习了解
 ## 项目介绍
    项目使用 Nacos 作为远程配置中心实现 one jar one docker run everywhere
-   实现Spring Cloud 集成 Eureka、Ribbon、Feign、Zuul、Getway、Mybatis
+   实现Spring Cloud 集成 Ribbon、Feign、Getway、Mybatis、Redisson
 
 ### Spring Cloud 与 Spring Boot 版本
 | Spring Cloud | Spring Boot |

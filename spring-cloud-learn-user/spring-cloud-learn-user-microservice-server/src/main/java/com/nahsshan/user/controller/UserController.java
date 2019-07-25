@@ -2,12 +2,10 @@ package com.nahsshan.user.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.nahsshan.common.redisson.utils.RedisUtil;
-import com.nahsshan.common.redisson.utils.RedissonLockUtil;
 import com.nahsshan.common.response.Result;
 import com.nahsshan.user.common.entity.User;
 import com.nahsshan.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RLock;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +19,7 @@ import java.util.Random;
  * @date 2019/7/11
  */
 @RestController
+@RequestMapping("/user")
 @Slf4j
 public class UserController{
     
@@ -34,13 +33,13 @@ public class UserController{
 
     private final static Random random = new Random();
 
-    @PostMapping("/user/save")
+    @PostMapping("/save")
     public Result saveUser(@RequestBody User user) {
         Integer i = userService.saveUser(user);
         return Result.newSuccessResult(i);
     }
 
-    @GetMapping("/user/get/{userId}")
+    @GetMapping("/get/{userId}")
     @SentinelResource(value="/user/get",blockHandler="getById",blockHandlerClass=UserControllerBlock.class)
     public Result getById(@PathVariable("userId") Long userId){
         User user = userService.getById(userId);
@@ -53,7 +52,7 @@ public class UserController{
      * 获取所有用户列表
      * @return
      */
-    @GetMapping("/user/findAll")
+    @GetMapping("/findAll")
     public Result findAll() {
         // 通过休眠来模拟执行时间
         log.info("{}:{} UserController method;{}",ipAddress,port,"getUsers");

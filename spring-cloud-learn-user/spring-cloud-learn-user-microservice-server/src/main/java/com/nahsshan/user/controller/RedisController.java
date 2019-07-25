@@ -5,6 +5,7 @@ import com.nahsshan.common.response.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.TimeUnit;
@@ -15,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2019/7/11
  */
 @RestController
+@RequestMapping("/redis")
 @Slf4j
 public class RedisController {
 
@@ -22,7 +24,7 @@ public class RedisController {
      * RedissonLock 测试接口
      * @return
      */
-    @GetMapping("/redis/lock/{lockKey}")
+    @GetMapping("/lock/{lockKey}")
     public Result redissonLock(@PathVariable("lockKey") String lockKey) {
         boolean res = false;
         try{

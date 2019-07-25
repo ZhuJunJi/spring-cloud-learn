@@ -3,12 +3,15 @@ package com.nahsshan.user;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.nahsshan.common.tomcat.CustomShutdown;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -61,5 +64,17 @@ public class UserServerProviderApplication {
         redisTemplate.afterPropertiesSet();
 
         return redisTemplate;
+    }
+
+    @Bean
+    public CustomShutdown customShutdown(){
+        return new CustomShutdown();
+    }
+
+    @Bean
+    public ConfigurableServletWebServerFactory webServerFactory(final CustomShutdown customShutdown){
+        TomcatServletWebServerFactory tomcatServletWebServerFactory = new TomcatServletWebServerFactory();
+        tomcatServletWebServerFactory.addConnectorCustomizers(customShutdown);
+        return tomcatServletWebServerFactory;
     }
 }

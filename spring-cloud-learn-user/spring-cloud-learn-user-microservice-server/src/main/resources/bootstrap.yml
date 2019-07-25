@@ -13,7 +13,7 @@ spring:
       config:
         file-extension: yaml
         server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
-        namespace: 76c05fec-31cb-4c9d-a97b-cbabbbb7c56b
+        namespace: 7acc1bdb-904b-4c76-879c-098a35626c54
         ext-config[0]:
           data-id: ${spring.application.name}.yml
           group: ${spring.application.name}
