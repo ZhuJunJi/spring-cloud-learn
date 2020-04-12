@@ -1,59 +1,59 @@
 ## Nacos配置中心配置
+data-id: spring-cloud-learn-user-microservice-server-provider.yml
+group: spring-cloud-learn-user-microservice-server-provider
+```yaml
+spring:
+    nacos:
+      discovery:
+        namespace: 2a5d3ccd-d57a-4ef2-b702-60f7b2ba510b
+        server-addr: 127.0.0.1:8848
+        metadata: 
+          version: 1.0.0
+```
+data-id: spring-cloud-learn-user-microservice-server-provider-mysql.yml
+group: spring-cloud-learn-user-microservice-server-provider
 ```yaml
 spring:
   datasource:
     master:
-      jdbc-url: jdbc:mysql://192.168.137.100:3306/nahsshan
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/nahsshan?serverTimezone=Asia/Shanghai
       username: root
       password: "123456"
       driver-class-name: com.mysql.cj.jdbc.Driver
     # 只读账户
     slave1:
-      jdbc-url: jdbc:mysql://192.168.137.100:3306/nahsshan
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/nahsshan?serverTimezone=Asia/Shanghai
       username: root
       password: "123456"
       driver-class-name: com.mysql.cj.jdbc.Driver
     # 只读账户
     slave2:
-      jdbc-url: jdbc:mysql://192.168.137.100:3306/nahsshan
+      jdbc-url: jdbc:mysql://127.0.0.1:3306/nahsshan?serverTimezone=Asia/Shanghai
       username: root
       password: "123456"
       driver-class-name: com.mysql.cj.jdbc.Driver
-  cloud:
-    nacos:
-      discovery:
-        namespace: 76c05fec-31cb-4c9d-a97b-cbabbbb7c56b
-        server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
-        metadata: 
-          version: 1.0.0
-    sentinel:
-      transport:
-        dashboard: 192.168.137.1:7200
-      datasource:
-        ds:
-          nacos:
-            namespace: 76c05fec-31cb-4c9d-a97b-cbabbbb7c56b
-            server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
-            dataId: sentinel.json
-            groupId: sentinel
-            ruleType: flow
-#mybatis:
-#  mapper-locations: "classpath:mapper/*.xml"
-# eureka:
-#   client:
-#     service-url:
-#       # 注册到注册中心
-#       defaultZone: http://192.168.137.1:8000/eureka/,http://192.168.137.1:8001/eureka/,http://192.168.137.1:8002/eureka/
-#     registry-fetch-interval-seconds: 10
-#   instance:
-#     hostname: localhost
-#     prefer-ip-address: true
-#     instance-id: ${spring.cloud.client.ip-address}:${server.port}
-management:
-  endpoint:
-    health:
-      show-details: always
 ```
+data-id: spring-cloud-learn-user-microservice-server-provider-redis.yml
+group: spring-cloud-learn-user-microservice-server-provider
+```yaml
+spring:
+    redis:
+        # redis 模式选择 single（单机）/cluster（集群）/sentinel（哨兵）
+        mode: single
+        password: 123456
+        timeout: 3000
+        pool:
+            maxIdle: 8
+            maxTotal: 8
+            minIdle: 0
+            commandTimeout: 60000
+            shutdownTimeout: 100
+        single:
+            hostName: 127.0.0.1
+            port: 6379
+```
+data-id: sentinel.json
+group: sentinel
 ## sentinel 限流策略配置
 ```json
 [

@@ -13,7 +13,7 @@ public interface UserService {
     /**
      * 保存用户
      * @param user
-     * @
+     * @return
      */
     Integer saveUser(User user);
     /**
@@ -24,6 +24,7 @@ public interface UserService {
     User getById(Long userId);
     /**
      * 查询所有的用户列表
+     * @return List<User>
      */
     List<User> findAll();
 

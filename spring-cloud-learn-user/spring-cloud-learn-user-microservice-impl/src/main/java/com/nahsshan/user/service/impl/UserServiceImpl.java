@@ -32,11 +32,6 @@ public class UserServiceImpl implements UserService {
     @Master
     @RedisLock
     public User getById(@LockKey Long userId) {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
         return userMapper.getByUserId(userId);
     }
 

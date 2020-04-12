@@ -2,13 +2,15 @@ package com.nahsshan.user.common.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 /**
  *
  * @author J.zhu
  * @date 2019/7/11
  */
 @Data
-public class User {
+public class User implements Serializable {
 
     /**
      * 用户ID

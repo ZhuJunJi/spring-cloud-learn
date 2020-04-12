@@ -22,17 +22,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <springboot.version>2.1.4.RELEASE</springboot.version>
-        <spring-cloud.version>Greenwich.SR1</spring-cloud.version>
-        <spring-cloud-nacos.version>0.9.0.RELEASE</spring-cloud-nacos.version>
-        <nacos.version>0.9.0.RELEASE</nacos.version>
-        <redisson.version>3.11.0</redisson.version>
-        <curator.version>4.2.0</curator.version>
+        <springboot.version>2.2.6.RELEASE</springboot.version>
+        <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
+        <nacos-discovery.version>2.2.1.RELEASE</nacos-discovery.version>
+        <nacos-config.version>2.2.0.RELEASE</nacos-config.version>
+        <redisson.version>3.12.4</redisson.version>
+        <curator.version>4.3.0</curator.version>
         <joda-money.version>1.0.1</joda-money.version>
-        <fastjson.version>1.2.58</fastjson.version>
-        <mybatis-spring-boot-starter.version>2.0.1</mybatis-spring-boot-starter.version>
-        <alibaba-sentinel.version>0.9.0.RELEASE</alibaba-sentinel.version>
-        <sentinel-datasource-nacos.version>1.6.2</sentinel-datasource-nacos.version>
+        <fastjson.version>1.2.68</fastjson.version>
+        <mybatis-spring-boot-starter.version>2.1.2</mybatis-spring-boot-starter.version>
+        <alibaba-sentinel.version>2.2.0.RELEASE</alibaba-sentinel.version>
+        <sentinel-datasource-nacos.version>1.7.2</sentinel-datasource-nacos.version>
+        <commons-pool2.version>2.8.0</commons-pool2.version>
     </properties>
 
     <dependencyManagement>
@@ -51,16 +52,20 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <!-- nacos -->
             <dependency>
-                <groupId>org.springframework.cloud</groupId>
+                <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-                <version>${spring-cloud-nacos.version}</version>
+                <version>${nacos-discovery.version}</version>
             </dependency>
+
             <dependency>
-                <groupId>org.springframework.cloud</groupId>
+                <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-                <version>${nacos.version}</version>
+                <version>${nacos-config.version}</version>
             </dependency>
+
             <!-- MyBatis -->
             <dependency>
                 <groupId>org.mybatis.spring.boot</groupId>
@@ -96,13 +101,13 @@
 
             <!-- Sentinel -->
             <dependency>
-                <groupId>org.springframework.cloud</groupId>
+                <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
                 <version>${alibaba-sentinel.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.springframework.cloud</groupId>
+                <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-sentinel</artifactId>
                 <version>${alibaba-sentinel.version}</version>
             </dependency>
@@ -113,7 +118,11 @@
                 <version>${sentinel-datasource-nacos.version}</version>
             </dependency>
 
-
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>${commons-pool2.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -138,6 +147,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-logging</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>

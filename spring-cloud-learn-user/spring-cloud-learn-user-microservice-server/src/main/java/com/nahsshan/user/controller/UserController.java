@@ -31,20 +31,19 @@ public class UserController{
     @Resource(name = "userServiceImpl")
     private UserService userService;
 
-    private final static Random random = new Random();
+    private final static Random RANDOM = new Random();
 
     @PostMapping("/save")
-    public Result saveUser(@RequestBody User user) {
+    public Result<Integer> saveUser(@RequestBody User user) {
         Integer i = userService.saveUser(user);
         return Result.newSuccessResult(i);
     }
 
     @GetMapping("/get/{userId}")
     @SentinelResource(value="/user/get",blockHandler="getById",blockHandlerClass=UserControllerBlock.class)
-    public Result getById(@PathVariable("userId") Long userId){
+    public Result<User> getById(@PathVariable("userId") Long userId){
         User user = userService.getById(userId);
         RedisUtil.set("user",user);
-//        throw new RuntimeException("模拟失败");
         return Result.newSuccessResult(user);
     }
 
@@ -53,12 +52,12 @@ public class UserController{
      * @return
      */
     @GetMapping("/findAll")
-    public Result findAll() {
+    public Result<List<User>> findAll() {
         // 通过休眠来模拟执行时间
         log.info("{}:{} UserController method;{}",ipAddress,port,"getUsers");
-        long executeTime = random.nextInt(200);
+        long executeTime = RANDOM.nextInt(200);
         System.out.println("Execute Time : " + executeTime + " ms");
-        List<User> userlIst = userService.findAll();
-        return Result.newSuccessResult(userlIst);
+        List<User> userList = userService.findAll();
+        return Result.newSuccessResult(userList);
     }
 }

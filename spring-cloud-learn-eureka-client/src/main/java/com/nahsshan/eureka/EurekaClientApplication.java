@@ -1,5 +1,6 @@
 package com.nahsshan.eureka;
 
+import com.alibaba.cloud.nacos.ribbon.RibbonNacosAutoConfiguration;
 import com.nahsshan.eureka.ribbon.NacosFinalRule;
 import com.netflix.loadbalancer.IRule;
 import org.redisson.spring.starter.RedissonAutoConfiguration;
@@ -8,7 +9,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration;
-import org.springframework.cloud.alibaba.nacos.ribbon.RibbonNacosAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.ribbon.RibbonClients;
 import org.springframework.cloud.openfeign.EnableFeignClients;

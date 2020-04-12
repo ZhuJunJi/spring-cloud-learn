@@ -19,7 +19,7 @@ public class RedissonLockUtil {
     private static RedissonClient redissonClient;
 
     @Autowired
-    public void setRedissonClient(@Qualifier("redissonSentinel") RedissonClient redissonClient) {
+    public void setRedissonClient(@Qualifier("redissonClient") RedissonClient redissonClient) {
         this.redissonClient = redissonClient;
     }
 

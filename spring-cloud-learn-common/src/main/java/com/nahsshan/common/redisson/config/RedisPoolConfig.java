@@ -14,18 +14,16 @@ public class RedisPoolConfig {
 
     private int maxIdle;
 
+    private int maxTotal;
+
     private int minIdle;
-
-    private int maxActive;
-
-    private int maxWait;
-
-    private int connTimeout;
-
-    private int soTimeout;
+    /**
+     * 单位毫秒
+     */
+    private int commandTimeout;
 
     /**
-     * 池大小
+     * 单位毫秒
      */
-    private  int size;
+    private int shutdownTimeout;
 }

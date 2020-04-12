@@ -14,14 +14,14 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ToString
 public class RedisConfig {
 
-    private int database;
+    private int database = 0;
 
     /**
      * 等待节点回复命令的时间。该时间从命令发送成功时开始计时
      */
-    private int timeout;
+    private int timeout = 3000;
 
-    private String password;
+    private String password = "123456";
 
     private String mode;
 
