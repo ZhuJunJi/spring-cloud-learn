@@ -10,6 +10,12 @@ import lombok.ToString;
 @Data
 @ToString
 public class RedisSingleConfig {
-    private String hostName;
-    private Integer port;
+    /**
+     * hostName
+     */
+    private String hostName = "127.0.0.1";
+    /**
+     * port
+     */
+    private Integer port = 6379;
 }

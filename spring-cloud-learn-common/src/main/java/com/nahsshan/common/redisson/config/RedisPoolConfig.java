@@ -12,18 +12,20 @@ import lombok.ToString;
 @ToString
 public class RedisPoolConfig {
 
-    private int maxIdle;
+    private int maxIdle = 8;
 
-    private int maxTotal;
+    private int maxTotal = 8;
 
-    private int minIdle;
+    private int minIdle = 0;
+
+    private long maxWaitMillis = -1L;
     /**
      * 单位毫秒
      */
-    private int commandTimeout;
+    private long commandTimeout = 60000L;
 
     /**
      * 单位毫秒
      */
-    private int shutdownTimeout;
+    private long shutdownTimeout = 100L;
 }

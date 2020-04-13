@@ -14,6 +14,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ToString
 public class RedisConfig {
 
+    /**
+     * database
+     */
     private int database = 0;
 
     /**
@@ -21,9 +24,44 @@ public class RedisConfig {
      */
     private int timeout = 3000;
 
-    private String password = "123456";
+    /**
+     * Timeout during connecting to any Redis server.
+     * Value in milliseconds.
+     *
+     */
+    private int connectTimeout = 10000;
 
-    private String mode;
+    /**
+     * If pooled connection not used for a <code>timeout</code> time
+     * and current connections amount bigger than minimum idle connections pool size,
+     * then it will closed and removed from pool.
+     * Value in milliseconds.
+     *
+     */
+    private int idleConnectionTimeout = 10000;
+
+    /**
+     * Password for Redis authentication. Should be null if not needed
+     * Default is <code>null</code>
+     */
+    private String password;
+
+    /**
+     * redis 模式选择  single/cluster/sentinel
+     */
+    private String mode = "single";
+
+    /**
+     * （命令失败重试次数） 默认值：3
+     */
+    private int retryAttempts = 3;
+
+    /**
+     *命令重试发送时间间隔，单位：毫秒 默认值：1500
+     */
+    private int retryInterval = 1500;
+
+    private int failedSlaveReconnectionInterval = 3000;
 
     /**
      * 池配置

@@ -1,14 +1,16 @@
 package com.nahsshan.common.redisson.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
-import io.micrometer.core.instrument.util.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
-import org.redisson.config.*;
+import org.redisson.config.Config;
+import org.redisson.config.ReadMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -17,25 +19,30 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.connection.RedisSentinelConfiguration;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.data.redis.connection.*;
+import org.springframework.data.redis.connection.lettuce.LettuceClientConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettucePoolingClientConfiguration;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.util.StringUtils.split;
 
 /**
  * @author J.zhu
  * @date 2019/7/19
  */
+@Slf4j
 @Configuration
 @EnableConfigurationProperties(RedisConfig.class)
 public class CacheConfiguration {
@@ -49,16 +56,16 @@ public class CacheConfiguration {
     protected class RedisSingleClientConfiguration {
 
         @Bean
-        public RedisConnectionFactory redisConnectionFactory(LettucePoolingClientConfiguration lettucePoolingClientConfiguration) {
+        public RedisConfiguration redisConfiguration() {
             RedisSingleConfig redisSingleConfig = redisConfig.getSingle();
             RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
             redisStandaloneConfiguration.setDatabase(redisConfig.getDatabase());
             redisStandaloneConfiguration.setHostName(redisSingleConfig.getHostName());
             redisStandaloneConfiguration.setPort(redisSingleConfig.getPort());
-            if (StringUtils.isNotBlank(redisConfig.getPassword())) {
-                redisStandaloneConfiguration.setPassword(redisConfig.getPassword());
-            }
-            return new LettuceConnectionFactory(redisStandaloneConfiguration,lettucePoolingClientConfiguration);
+            redisStandaloneConfiguration.setPassword(redisConfig.getPassword());
+
+            log.info("初始化 RedisConfiguration 单机模式");
+            return redisStandaloneConfiguration;
         }
 
         /**
@@ -69,14 +76,19 @@ public class CacheConfiguration {
         public RedissonClient redissonClient() {
             Config config = new Config();
             String address = "redis://" + redisConfig.getSingle().getHostName() + ":" + redisConfig.getSingle().getPort();
-            SingleServerConfig serverConfig = config.useSingleServer()
+            config.useSingleServer()
                     .setAddress(address)
                     .setTimeout(redisConfig.getTimeout())
+                    .setConnectTimeout(redisConfig.getConnectTimeout())
+                    .setIdleConnectionTimeout(redisConfig.getIdleConnectionTimeout())
+                    .setRetryAttempts(redisConfig.getRetryAttempts())
+                    .setRetryInterval(redisConfig.getRetryInterval())
+                    .setPassword(redisConfig.getPassword())
                     .setDatabase(redisConfig.getDatabase());
-            if (StringUtils.isNotBlank(redisConfig.getPassword())) {
-                serverConfig.setPassword(redisConfig.getPassword());
-            }
-            return Redisson.create(config);
+
+            RedissonClient redissonClient = Redisson.create(config);
+            log.info("Redis 单机启动 初始化 RedissonClient 成功！config:{}",redisConfig);
+            return redissonClient;
         }
     }
 
@@ -84,6 +96,30 @@ public class CacheConfiguration {
     @ConditionalOnClass({Redisson.class})
     @ConditionalOnExpression("'${spring.redis.mode}'.equals('cluster')")
     protected class RedisClusterClientConfiguration {
+
+        @Bean
+        public RedisConfiguration redisConfiguration() {
+            RedisClusterConfig clusterConfig = redisConfig.getCluster();
+
+            RedisClusterConfiguration redisClusterConfiguration = new RedisClusterConfiguration();
+
+            if(clusterConfig.getMaxRedirects() != null){
+                redisClusterConfiguration.setMaxRedirects(clusterConfig.getMaxRedirects());
+            }
+            if(redisConfig.getPassword() != null){
+                redisClusterConfiguration.setPassword(redisConfig.getPassword());
+            }
+
+            List<RedisNode> clusterNodes = StringUtils
+                    .commaDelimitedListToSet(clusterConfig.getNodes())
+                    .stream()
+                    .map(hostAndPort->readHostAndPortFromString(hostAndPort))
+                    .collect(Collectors.toList());
+
+            redisClusterConfiguration.setClusterNodes(clusterNodes);
+
+            return redisClusterConfiguration;
+        }
 
         /**
          * 集群模式的 redisson 客户端
@@ -93,7 +129,7 @@ public class CacheConfiguration {
         @Bean
         @ConditionalOnProperty(name = "spring.redis.mode", havingValue = "cluster")
         public RedissonClient redissonClient() {
-            System.out.println("cluster redisConfig:" + redisConfig.getCluster());
+            RedisClusterConfig clusterConfig = redisConfig.getCluster();
 
             Config config = new Config();
             String[] nodes = redisConfig.getCluster().getNodes().split(",");
@@ -101,25 +137,25 @@ public class CacheConfiguration {
             Arrays.stream(nodes).forEach((index) -> newNodes.add(
                     index.startsWith("redis://") ? index : "redis://" + index));
 
-            ClusterServersConfig serverConfig = config.useClusterServers()
+            config.useClusterServers()
                     .addNodeAddress(newNodes.toArray(new String[0]))
-                    .setScanInterval(
-                            redisConfig.getCluster().getScanInterval())
-                    .setFailedSlaveCheckInterval(
-                            redisConfig.getCluster().getFailedAttempts())
-                    .setRetryAttempts(
-                            redisConfig.getCluster().getRetryAttempts())
-                    .setRetryInterval(
-                            redisConfig.getCluster().getRetryInterval())
-                    .setMasterConnectionPoolSize(redisConfig.getCluster()
-                            .getMasterConnectionPoolSize())
-                    .setSlaveConnectionPoolSize(redisConfig.getCluster()
-                            .getSlaveConnectionPoolSize())
-                    .setTimeout(redisConfig.getTimeout());
-            if (StringUtils.isNotBlank(redisConfig.getPassword())) {
-                serverConfig.setPassword(redisConfig.getPassword());
-            }
-            return Redisson.create(config);
+                    .setTimeout(redisConfig.getTimeout())
+                    .setConnectTimeout(redisConfig.getConnectTimeout())
+                    .setIdleConnectionTimeout(redisConfig.getIdleConnectionTimeout())
+                    .setRetryAttempts(redisConfig.getRetryAttempts())
+                    .setRetryInterval(redisConfig.getRetryInterval())
+                    .setScanInterval(clusterConfig.getScanInterval())
+                    .setPassword(redisConfig.getPassword())
+                    .setFailedSlaveCheckInterval(clusterConfig.getFailedSlaveCheckInterval())
+                    .setFailedSlaveReconnectionInterval(clusterConfig.getFailedSlaveReconnectionInterval())
+                    .setMasterConnectionPoolSize(clusterConfig.getMasterConnectionPoolSize())
+                    .setMasterConnectionMinimumIdleSize(clusterConfig.getMasterConnectionMinimumIdleSize())
+                    .setSlaveConnectionPoolSize(clusterConfig.getSlaveConnectionPoolSize())
+                    .setSlaveConnectionMinimumIdleSize(clusterConfig.getSlaveConnectionMinimumIdleSize());
+
+            RedissonClient redissonClient = Redisson.create(config);
+            log.info("Redis 集群启动 初始化 RedissonClient 成功！config:{}",redisConfig);
+            return redissonClient;
         }
     }
 
@@ -129,18 +165,25 @@ public class CacheConfiguration {
     protected class RedisSentinelClientConfiguration {
 
         @Bean
-        public RedisConnectionFactory redisConnectionFactory(LettucePoolingClientConfiguration lettucePoolingClientConfiguration) {
-            RedisSentinelConfig redisSentinelConfig = redisConfig.getSentinel();
+        public RedisConfiguration redisConfiguration() {
+            RedisSentinelConfig sentinelConfig = redisConfig.getSentinel();
 
             RedisSentinelConfiguration redisSentinelConfiguration = new RedisSentinelConfiguration();
 
             redisSentinelConfiguration.setDatabase(redisConfig.getDatabase());
+            redisSentinelConfiguration.setMaster(sentinelConfig.getMaster());
 
-            if (StringUtils.isNotBlank(redisConfig.getPassword())) {
-                redisSentinelConfiguration.setPassword(redisConfig.getPassword());
-            }
+            List<RedisNode> sentinels = StringUtils
+                    .commaDelimitedListToSet(sentinelConfig.getNodes())
+                    .stream()
+                    .map(hostAndPort->readHostAndPortFromString(hostAndPort))
+                    .collect(Collectors.toList());
 
-            return new LettuceConnectionFactory(redisSentinelConfiguration, lettucePoolingClientConfiguration);
+            redisSentinelConfiguration.setSentinels(sentinels);
+
+            redisSentinelConfiguration.setPassword(redisConfig.getPassword());
+
+            return redisSentinelConfiguration;
         }
 
         /**
@@ -151,35 +194,43 @@ public class CacheConfiguration {
         @Bean
         @ConditionalOnProperty(name = "spring.redis.mode", havingValue = "sentinel")
         public RedissonClient redissonClient() {
-            System.out.println("sentinel redisConfig:" + redisConfig.getSentinel());
+
+            RedisSentinelConfig sentinelConfig = redisConfig.getSentinel();
+
             Config config = new Config();
             String[] nodes = redisConfig.getSentinel().getNodes().split(",");
             List<String> newNodes = new ArrayList(nodes.length);
             Arrays.stream(nodes).forEach((index) -> newNodes.add(
                     index.startsWith("redis://") ? index : "redis://" + index));
 
-            SentinelServersConfig serverConfig = config.useSentinelServers()
-
+            config.useSentinelServers()
                     .addSentinelAddress(newNodes.toArray(new String[0]))
-                    .setMasterName(redisConfig.getSentinel().getMaster())
-                    .setReadMode(ReadMode.SLAVE)
-                    .setFailedSlaveCheckInterval(redisConfig.getSentinel().getFailMax())
                     .setTimeout(redisConfig.getTimeout())
-                    .setMasterConnectionPoolSize(8)
-                    .setMasterConnectionMinimumIdleSize(0)
-                    .setSlaveConnectionPoolSize(8)
-                    .setSlaveConnectionMinimumIdleSize(0);
-
-            if (StringUtils.isNotBlank(redisConfig.getPassword())) {
-                serverConfig.setPassword(redisConfig.getPassword());
-            }
-
-            return Redisson.create(config);
+                    .setConnectTimeout(redisConfig.getConnectTimeout())
+                    .setIdleConnectionTimeout(redisConfig.getIdleConnectionTimeout())
+                    .setRetryAttempts(redisConfig.getRetryAttempts())
+                    .setRetryInterval(redisConfig.getRetryInterval())
+                    .setPassword(redisConfig.getPassword())
+                    .setMasterName(sentinelConfig.getMaster())
+                    .setReadMode(ReadMode.valueOf(sentinelConfig.getReadMode()))
+                    .setFailedSlaveCheckInterval(sentinelConfig.getSlaveFailsInterval())
+                    .setFailedSlaveReconnectionInterval(sentinelConfig.getFailedSlaveReconnectionInterval())
+                    .setMasterConnectionPoolSize(sentinelConfig.getMasterConnectionPoolSize())
+                    .setMasterConnectionMinimumIdleSize(sentinelConfig.getMasterConnectionMinimumIdleSize())
+                    .setSlaveConnectionPoolSize(sentinelConfig.getSlaveConnectionPoolSize())
+                    .setSlaveConnectionMinimumIdleSize(sentinelConfig.getSlaveConnectionMinimumIdleSize());
+            RedissonClient redissonClient = Redisson.create(config);
+            log.info("Redis 哨兵模式启动 初始化 RedissonClient 成功！config:{}",redisConfig);
+            return redissonClient;
         }
     }
 
+    /**
+     * Redis 连接池
+     * @return
+     */
     @Bean
-    public LettucePoolingClientConfiguration lettucePoolingClientConfiguration() {
+    public LettuceClientConfiguration lettuceClientConfiguration() {
         RedisPoolConfig pool = redisConfig.getPool();
 
         GenericObjectPoolConfig genericObjectPoolConfig = new GenericObjectPoolConfig();
@@ -187,14 +238,37 @@ public class CacheConfiguration {
         genericObjectPoolConfig.setMaxIdle(pool.getMaxIdle());
         genericObjectPoolConfig.setMaxTotal(pool.getMaxTotal());
         genericObjectPoolConfig.setMinIdle(pool.getMinIdle());
+        genericObjectPoolConfig.setMaxWaitMillis(pool.getMaxWaitMillis());
 
-        return LettucePoolingClientConfiguration.builder()
+        LettuceClientConfiguration lettuceClientConfiguration = LettucePoolingClientConfiguration
+                .builder()
                 .commandTimeout(Duration.ofMillis(pool.getCommandTimeout()))
                 .shutdownTimeout(Duration.ofMillis(pool.getShutdownTimeout()))
                 .poolConfig(genericObjectPoolConfig)
                 .build();
+        log.info("初始化 LettuceClientConfiguration 成功！");
+        return lettuceClientConfiguration;
     }
 
+    /**
+     * Redis 连接工厂
+     * @param redisConfiguration
+     * @param lettuceClientConfiguration
+     * @return
+     */
+    @Bean
+    public RedisConnectionFactory redisConnectionFactory(@Qualifier("redisConfiguration") RedisConfiguration redisConfiguration, LettuceClientConfiguration lettuceClientConfiguration){
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisConfiguration, lettuceClientConfiguration);
+        log.info("初始化 RedisConnectionFactory 成功!");
+        return lettuceConnectionFactory;
+    }
+
+
+    /**
+     * RedisTemplate
+     * @param redisConnectionFactory
+     * @return
+     */
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate(@Qualifier("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
@@ -204,6 +278,7 @@ public class CacheConfiguration {
 
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
         ObjectMapper om = new ObjectMapper();
+        om.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         om.activateDefaultTyping(BasicPolymorphicTypeValidator.builder().allowIfBaseType(Serializable.class).build());
         jackson2JsonRedisSerializer.setObjectMapper(om);
@@ -218,6 +293,16 @@ public class CacheConfiguration {
         redisTemplate.setHashValueSerializer(jackson2JsonRedisSerializer);
         redisTemplate.afterPropertiesSet();
 
+        log.info("初始化 RedisTemplate 成功！");
         return redisTemplate;
+    }
+
+    private static RedisNode readHostAndPortFromString(String hostAndPort) {
+
+        String[] args = split(hostAndPort, ":");
+
+        Assert.notNull(args, "HostAndPort need to be seperated by  ':'.");
+        Assert.isTrue(args.length == 2, "Host and Port String needs to specified as host:port");
+        return new RedisNode(args[0], Integer.valueOf(args[1]).intValue());
     }
 }
