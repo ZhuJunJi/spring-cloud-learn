@@ -1,4 +1,4 @@
-package com.nahsshan.common.redisson.utils;
+package com.nahsshan.common.redis.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

@@ -1,4 +1,4 @@
-package com.nahsshan.common.redisson.annotation;
+package com.nahsshan.common.redis.annotation;
 
 import java.lang.annotation.*;
 

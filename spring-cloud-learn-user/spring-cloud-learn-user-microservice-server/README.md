@@ -1,6 +1,6 @@
 ## Nacos配置中心配置
-data-id: spring-cloud-learn-user-microservice-server-provider.yml
-group: spring-cloud-learn-user-microservice-server-provider
+data-id: user-microservice-server-provider.yml
+group: user-microservice-server-provider
 ```yaml
 spring:
     nacos:
@@ -10,8 +10,8 @@ spring:
         metadata: 
           version: 1.0.0
 ```
-data-id: spring-cloud-learn-user-microservice-server-provider-mysql.yml
-group: spring-cloud-learn-user-microservice-server-provider
+data-id: user-microservice-server-provider-mysql.yml
+group: user-microservice-server-provider
 ```yaml
 spring:
   datasource:
@@ -33,8 +33,8 @@ spring:
       password: "123456"
       driver-class-name: com.mysql.cj.jdbc.Driver
 ```
-data-id: spring-cloud-learn-user-microservice-server-provider-redis.yml
-group: spring-cloud-learn-user-microservice-server-provider
+data-id: user-microservice-server-provider-redis.yml
+group: user-microservice-server-provider
 ```yaml
 spring:
     redis:

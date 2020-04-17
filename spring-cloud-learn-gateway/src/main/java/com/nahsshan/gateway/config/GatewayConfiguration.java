@@ -15,17 +15,14 @@
  */
 package com.nahsshan.gateway.config;
 
-import com.alibaba.csp.sentinel.adapter.gateway.common.SentinelGatewayConstants;
-import com.alibaba.csp.sentinel.adapter.gateway.common.api.ApiDefinition;
-import com.alibaba.csp.sentinel.adapter.gateway.common.api.ApiPathPredicateItem;
-import com.alibaba.csp.sentinel.adapter.gateway.common.api.ApiPredicateItem;
-import com.alibaba.csp.sentinel.adapter.gateway.common.api.GatewayApiDefinitionManager;
-import com.alibaba.csp.sentinel.adapter.gateway.common.rule.GatewayFlowRule;
-import com.alibaba.csp.sentinel.adapter.gateway.common.rule.GatewayParamFlowItem;
-import com.alibaba.csp.sentinel.adapter.gateway.common.rule.GatewayRuleManager;
+import com.alibaba.cloud.sentinel.SentinelProperties;
+import com.alibaba.cloud.sentinel.custom.SentinelDataSourceHandler;
+import com.alibaba.cloud.sentinel.datasource.config.AbstractDataSourceProperties;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.SentinelGatewayFilter;
 import com.alibaba.csp.sentinel.adapter.gateway.sc.exception.SentinelGatewayBlockExceptionHandler;
+import javafx.animation.Interpolatable;
 import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,12 +32,12 @@ import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.web.reactive.result.view.ViewResolver;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
- * @author Eric Zhao
+ * GatewayConfiguration Gateway配置类
+ * @author J.zhu
+ * @date 2019/7/17
  */
 @Configuration
 public class GatewayConfiguration {
@@ -66,4 +63,18 @@ public class GatewayConfiguration {
     public GlobalFilter sentinelGatewayFilter() {
         return new SentinelGatewayFilter();
     }
+
+    /**
+     * 	converter type now support xml or json.
+     * 	The bean name of these converters wrapped by
+     * 	'sentinel-{converterType}-{ruleType}-converter'
+     * {@link SentinelDataSourceHandler#registerBean(AbstractDataSourceProperties, String) 180行代码}
+     * @return GatewayFlowRuleConvert
+     */
+    @Bean("sentinel-json-gw-flow-converter")
+    @Order(Ordered.HIGHEST_PRECEDENCE)
+    public GatewayFlowRuleConvert gatewayFlowRuleConvert(){
+        return new GatewayFlowRuleConvert();
+    }
+
 }

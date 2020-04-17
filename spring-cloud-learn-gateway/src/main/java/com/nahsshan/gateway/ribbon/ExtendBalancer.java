@@ -20,4 +20,6 @@ public class ExtendBalancer extends Balancer {
     public static Instance getHostByRandomWeight2(List<Instance> instances) {
         return getHostByRandomWeight(instances);
     }
+
+
 }

@@ -1,9 +1,11 @@
 package com.nahsshan.gateway.ribbon;
 
+import com.alibaba.cloud.nacos.NacosConfigProperties;
 import com.alibaba.cloud.nacos.NacosDiscoveryProperties;
 import com.alibaba.cloud.nacos.ribbon.NacosServer;
 import com.alibaba.nacos.api.naming.NamingService;
 import com.alibaba.nacos.api.naming.pojo.Instance;
+import com.alibaba.nacos.client.naming.core.Balancer;
 import com.netflix.client.config.IClientConfig;
 import com.netflix.loadbalancer.AbstractLoadBalancerRule;
 import com.netflix.loadbalancer.DynamicServerListLoadBalancer;
@@ -27,6 +29,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 public class NacosFinalRule extends AbstractLoadBalancerRule {
+
     @Autowired
     private NacosDiscoveryProperties nacosDiscoveryProperties;
 

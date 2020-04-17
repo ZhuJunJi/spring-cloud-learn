@@ -1,4 +1,4 @@
-package com.nahsshan.common.redisson.utils;
+package com.nahsshan.common.redis.utils;
 
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;

@@ -34,6 +34,8 @@
         <alibaba-sentinel.version>2.2.0.RELEASE</alibaba-sentinel.version>
         <sentinel-datasource-nacos.version>1.7.2</sentinel-datasource-nacos.version>
         <commons-pool2.version>2.8.0</commons-pool2.version>
+        <sentinel-transport-common.version>1.7.2</sentinel-transport-common.version>
+        <sentinel-spring-cloud-gateway-adapter.version>1.7.2</sentinel-spring-cloud-gateway-adapter.version>
     </properties>
 
     <dependencyManagement>
@@ -101,6 +103,12 @@
 
             <!-- Sentinel -->
             <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
+                <version>${sentinel-spring-cloud-gateway-adapter.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
                 <version>${alibaba-sentinel.version}</version>
@@ -111,6 +119,14 @@
                 <artifactId>spring-cloud-alibaba-sentinel</artifactId>
                 <version>${alibaba-sentinel.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.csp</groupId>
+                <artifactId>sentinel-transport-common</artifactId>
+                <version>${sentinel-transport-common.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
 
             <dependency>
                 <groupId>com.alibaba.csp</groupId>

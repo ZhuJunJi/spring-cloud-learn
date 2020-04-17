@@ -1,8 +1,8 @@
 package com.nahsshan.user.service.impl;
 
 import com.nahsshan.common.db.annotation.Master;
-import com.nahsshan.common.redisson.annotation.LockKey;
-import com.nahsshan.common.redisson.annotation.RedisLock;
+import com.nahsshan.common.redis.annotation.LockKey;
+import com.nahsshan.common.redis.annotation.RedisLock;
 import com.nahsshan.user.common.entity.User;
 import com.nahsshan.user.mapper.UserMapper;
 import com.nahsshan.user.service.UserService;

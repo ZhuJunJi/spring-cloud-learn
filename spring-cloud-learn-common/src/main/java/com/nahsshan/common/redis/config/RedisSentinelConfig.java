@@ -1,4 +1,4 @@
-package com.nahsshan.common.redisson.config;
+package com.nahsshan.common.redis.config;
 
 import lombok.Data;
 import lombok.ToString;

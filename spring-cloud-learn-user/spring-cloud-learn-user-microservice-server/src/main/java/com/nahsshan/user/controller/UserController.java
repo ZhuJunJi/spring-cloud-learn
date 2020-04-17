@@ -1,7 +1,7 @@
 package com.nahsshan.user.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
-import com.nahsshan.common.redisson.utils.RedisUtil;
+import com.nahsshan.common.redis.utils.RedisUtil;
 import com.nahsshan.common.response.Result;
 import com.nahsshan.user.common.entity.User;
 import com.nahsshan.user.service.UserService;

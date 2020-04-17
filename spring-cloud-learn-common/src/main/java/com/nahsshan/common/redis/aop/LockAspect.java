@@ -1,7 +1,7 @@
-package com.nahsshan.common.redisson.aop;
+package com.nahsshan.common.redis.aop;
 
-import com.nahsshan.common.redisson.annotation.LockKey;
-import com.nahsshan.common.redisson.utils.RedissonLockUtil;
+import com.nahsshan.common.redis.annotation.LockKey;
+import com.nahsshan.common.redis.utils.RedissonLockUtil;
 import com.nahsshan.common.response.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
@@ -37,7 +37,7 @@ public class LockAspect {
     /**
      * Service层切点
      */
-	@Pointcut("@annotation(com.nahsshan.common.redisson.annotation.RedisLock)")
+	@Pointcut("@annotation(com.nahsshan.common.redis.annotation.RedisLock)")
 	public void redisLockAspect() {
 
 	}
@@ -70,7 +70,7 @@ public class LockAspect {
 	}
 
     /**
-     * 获取方法上加了{@link com.nahsshan.common.redisson.annotation.LockKey}注解的为lockKey
+     * 获取方法上加了{@link com.nahsshan.common.redis.annotation.LockKey}注解的为lockKey
      * @param joinPoint
      * @return
      */

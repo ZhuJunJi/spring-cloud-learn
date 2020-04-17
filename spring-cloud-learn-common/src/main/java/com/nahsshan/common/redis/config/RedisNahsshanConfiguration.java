@@ -1,4 +1,4 @@
-package com.nahsshan.common.redisson.config;
+package com.nahsshan.common.redis.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -39,13 +39,13 @@ import java.util.stream.Collectors;
 import static org.springframework.util.StringUtils.split;
 
 /**
- * @author J.zhu
+ * @author J.zhu Redis 自定义配置类 通过指定模式初始化
  * @date 2019/7/19
  */
 @Slf4j
 @Configuration
 @EnableConfigurationProperties(RedisConfig.class)
-public class CacheConfiguration {
+public class RedisNahsshanConfiguration {
 
     @Autowired
     private RedisConfig redisConfig;
@@ -271,7 +271,7 @@ public class CacheConfiguration {
      */
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(@Qualifier("redisConnectionFactory") RedisConnectionFactory redisConnectionFactory) {
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
 
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);

@@ -1,10 +1,8 @@
 server:
   port: 7070
 spring:
-  profiles:
-    active: dev
   application:
-    name: spring-cloud-learn-gateway
+    name: gateway
 logging:
   level:
     org.springframework.cloud.gateway: debug
@@ -14,45 +12,34 @@ management:
       show-details: always
 ---
 spring:
-  profiles: test
+  profiles: local
   cloud:
     gateway:
+      enabled: true
       discovery:
         locator:
-          enabled: true
           lower-case-service-id: true
+          enabled: true
     nacos:
-      discovery:
-        namespace: 2a5d3ccd-d57a-4ef2-b702-60f7b2ba510b
-        server-addr: 127.0.0.1:8848
       config:
         file-extension: yml
         server-addr: 127.0.0.1:8848
-        namespace: 2a5d3ccd-d57a-4ef2-b702-60f7b2ba510b
+        namespace: nahsshan
         group: ${spring.application.name}
         prefix: ${spring.application.name}
-        refresh-enabled: true
+      discovery:
+        namespace: nahsshan
+        server-addr: 127.0.0.1:8848
     sentinel:
+      filter:
+        enabled: false
       transport:
-        dashboard: 192.168.137.100:7200
+        dashboard: 127.0.0.1:7200
       datasource:
         ds:
           nacos:
-            namespace: 2a5d3ccd-d57a-4ef2-b702-60f7b2ba510b
+            namespace: nahsshan
             server-addr: 127.0.0.1:8848
-            dataId: gateway-sentinel.json
+            dataId: ${spring.application.name}-sentinel.json
             groupId: ${spring.application.name}
-            ruleType: flow
----
-spring:
-  profiles: dev
-  cloud:
-    nacos:
-      config:
-        file-extension: yaml
-        server-addr: 192.168.137.100:8848,192.168.137.100:8849,192.168.137.100:8850
-        namespace: 76c05fec-31cb-4c9d-a97b-cbabbbb7c56b
-        extension-configs[0]:
-          data-id: ${spring.application.name}.yml
-          group: ${spring.application.name}
-          refresh: true
+            ruleType: gw-flow
