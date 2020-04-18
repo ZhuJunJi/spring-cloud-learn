@@ -1,9 +1,11 @@
 server:
+  address: www.nahsshan.com
   port: 7070
 spring:
   application:
     name: gateway
 logging:
+  config: classpath:logback.xml
   level:
     org.springframework.cloud.gateway: debug
 management:
@@ -23,23 +25,27 @@ spring:
     nacos:
       config:
         file-extension: yml
-        server-addr: 127.0.0.1:8848
+        server-addr: www.nahsshan.com:8848
         namespace: nahsshan
         group: ${spring.application.name}
         prefix: ${spring.application.name}
       discovery:
+        ip: www.nahsshan.com
         namespace: nahsshan
-        server-addr: 127.0.0.1:8848
+        server-addr: www.nahsshan.com:8848
     sentinel:
       filter:
         enabled: false
       transport:
-        dashboard: 127.0.0.1:7200
+        port: 8719
+        client-ip: www.nahsshan.com
+        dashboard: www.nahsshan.com:7200
       datasource:
         ds:
           nacos:
+            file-extension: json
             namespace: nahsshan
-            server-addr: 127.0.0.1:8848
+            server-addr: www.nahsshan.com:8848
             dataId: ${spring.application.name}-sentinel.json
             groupId: ${spring.application.name}
             ruleType: gw-flow

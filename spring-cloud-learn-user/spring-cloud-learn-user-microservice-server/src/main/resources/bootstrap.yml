@@ -2,6 +2,7 @@ spring:
   application:
     name: user-microservice-provider
 server:
+  address: www.nahsshan.com
   port: 10000
 logging:
   config: classpath:logback.xml
@@ -12,7 +13,7 @@ spring:
     nacos:
       config:
         file-extension: yml
-        server-addr: 127.0.0.1:8848
+        server-addr: www.nahsshan.com:8848
         namespace: nahsshan
         group: ${spring.application.name}
         prefix: ${spring.application.name}
@@ -24,19 +25,22 @@ spring:
           data-id: ${spring.application.name}-redis.yml
           group: ${spring.application.name}
       discovery:
+        ip: www.nahsshan.com
         namespace: nahsshan
-        server-addr: 127.0.0.1:8848
+        server-addr: www.nahsshan.com:8848
         metadata:
           version: 1.0.0
     sentinel:
       transport:
-        dashboard: 127.0.0.1:7200
+        port: 8719
+        dashboard: www.nahsshan.com:7200
+        client-ip: www.nahsshan.com
       datasource:
         ds:
           nacos:
             file-extension: json
             namespace: nahsshan
-            server-addr: 127.0.0.1:8848
+            server-addr: www.nahsshan.com:8848
             dataId: ${spring.application.name}-sentinel.json
             groupId: ${spring.application.name}
             ruleType: flow

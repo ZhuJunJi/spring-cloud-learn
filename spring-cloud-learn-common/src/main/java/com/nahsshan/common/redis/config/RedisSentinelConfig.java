@@ -19,7 +19,7 @@ public class RedisSentinelConfig {
     /**
      * 哨兵节点
      */
-    private String nodes = "127.0.0.1:26379,127.0.0.1:26380,127.0.0.1:26381";
+    private String nodes = "www.nahsshan.com:26379,www.nahsshan.com:26380,www.nahsshan.com:26381";
 
     /**
      * SLAVE/MASTER/MASTER_SLAVE

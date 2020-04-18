@@ -11,10 +11,10 @@ eureka:
     serviceUrl:
       defaultZone: http://192.168.137.1:8000/eureka/,http://192.168.137.1:8001/eureka/,http://192.168.137.1:8002/eureka/
   instance:
-    hostname: localhost
+    hostname: www.nahsshan.com
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
-#配置zuul路由规则 指定spring-cloud-api-client      http://localhost:6060/api-provider/* => http://localhost:802
+#配置zuul路由规则 指定spring-cloud-api-client      http://www.nahsshan.com:6060/api-provider/* => http://www.nahsshan.com:802
 zuul:
   routes:
     #/api-a/ 开头匹配到service-producer

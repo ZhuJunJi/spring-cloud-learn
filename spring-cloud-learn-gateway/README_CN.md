@@ -15,15 +15,15 @@ spring:
     nacos:
       discovery:
         namespace: nahsshan
-        server-addr: 127.0.0.1:8848
+        server-addr: www.nahsshan.com:8848
     sentinel:
       transport:
-        dashboard: 127.0.0.1:7200
+        dashboard: www.nahsshan.com:7200
       datasource:
         ds:
           nacos:
             namespace: nahsshan
-            server-addr: 127.0.0.1:8848
+            server-addr: www.nahsshan.com:8848
             dataId: ${spring.application.name}-sentinel.json
             groupId: ${spring.application.name}
             ruleType: flow

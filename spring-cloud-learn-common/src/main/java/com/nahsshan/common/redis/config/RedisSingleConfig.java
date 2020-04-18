@@ -13,7 +13,7 @@ public class RedisSingleConfig {
     /**
      * hostName
      */
-    private String hostName = "127.0.0.1";
+    private String hostName = "www.nahsshan.com";
     /**
      * port
      */

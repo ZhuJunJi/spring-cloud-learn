@@ -26,12 +26,13 @@
             <groupId>com.shanshan</groupId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <!-- 依赖 Spring Cloud eureka client -->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.cloud</groupId>-->
-            <!--<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
-        <!--</dependency>-->
+        <!-- Redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
 
+        <!-- Nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
@@ -58,9 +59,15 @@
             <artifactId>sentinel-datasource-nacos</artifactId>
         </dependency>
 
+        <!-- 通过客户端自带的规则 API来实时查询和更改内存中的规则 -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-transport-simple-http</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-transport-common</artifactId>
         </dependency>
 
     </dependencies>

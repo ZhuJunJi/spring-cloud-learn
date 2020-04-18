@@ -16,7 +16,7 @@ eureka:
       #服务注册
       defaultZone: http://192.168.137.100:8001/eureka/,http://192.168.137.100:8002/eureka/
   instance:
-    hostname: localhost
+    hostname: www.nahsshan.com
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
 ---
@@ -30,7 +30,7 @@ eureka:
       #服务注册
       defaultZone: http://192.168.137.100:8000/eureka/,http://192.168.137.100:8002/eureka/
   instance:
-    hostname: localhost
+    hostname: www.nahsshan.com
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
 ---
@@ -44,6 +44,6 @@ eureka:
       #服务注册
       defaultZone: http://192.168.137.100:8000/eureka/,http://192.168.137.100:8001/eureka/
   instance:
-    hostname: localhost
+    hostname: www.nahsshan.com
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ip-address}:${server.port}

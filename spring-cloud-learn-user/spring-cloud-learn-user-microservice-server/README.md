@@ -5,8 +5,8 @@ group: user-microservice-server-provider
 spring:
     nacos:
       discovery:
-        namespace: 2a5d3ccd-d57a-4ef2-b702-60f7b2ba510b
-        server-addr: 127.0.0.1:8848
+        namespace: nahsshan
+        server-addr: www.nahsshan.com:8848
         metadata: 
           version: 1.0.0
 ```
@@ -16,19 +16,19 @@ group: user-microservice-server-provider
 spring:
   datasource:
     master:
-      jdbc-url: jdbc:mysql://127.0.0.1:3306/nahsshan?serverTimezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://www.nahsshan.com:3306/nahsshan?serverTimezone=Asia/Shanghai
       username: root
       password: "123456"
       driver-class-name: com.mysql.cj.jdbc.Driver
     # 只读账户
     slave1:
-      jdbc-url: jdbc:mysql://127.0.0.1:3306/nahsshan?serverTimezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://www.nahsshan.com:3306/nahsshan?serverTimezone=Asia/Shanghai
       username: root
       password: "123456"
       driver-class-name: com.mysql.cj.jdbc.Driver
     # 只读账户
     slave2:
-      jdbc-url: jdbc:mysql://127.0.0.1:3306/nahsshan?serverTimezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://www.nahsshan.com:3306/nahsshan?serverTimezone=Asia/Shanghai
       username: root
       password: "123456"
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -49,7 +49,7 @@ spring:
             commandTimeout: 60000
             shutdownTimeout: 100
         single:
-            hostName: 127.0.0.1
+            hostName: www.nahsshan.com
             port: 6379
 ```
 data-id: sentinel.json
