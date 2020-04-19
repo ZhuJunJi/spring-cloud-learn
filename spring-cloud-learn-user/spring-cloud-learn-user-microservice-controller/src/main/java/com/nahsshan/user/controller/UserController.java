@@ -3,6 +3,7 @@ package com.nahsshan.user.controller;
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.nahsshan.common.response.Result;
 import com.nahsshan.user.common.entity.User;
+import com.nahsshan.user.controller.block.UserControllerBlock;
 import com.nahsshan.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
@@ -29,7 +30,7 @@ public class UserController{
     }
 
     @GetMapping("/get/{userId}")
-    @SentinelResource(value="/user/get",blockHandler="get",blockHandlerClass=UserControllerBlock.class)
+    @SentinelResource(value="/user/get",blockHandler="get",blockHandlerClass= UserControllerBlock.class)
     public Result<User> get(@PathVariable("userId") Long userId){
         User user = userService.getById(userId);
         return Result.newSuccessResult(user);
