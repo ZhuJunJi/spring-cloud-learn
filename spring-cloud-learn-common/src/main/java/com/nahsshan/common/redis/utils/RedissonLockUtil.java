@@ -20,7 +20,7 @@ public class RedissonLockUtil {
 
     @Autowired
     public void setRedissonClient(@Qualifier("redissonClient") RedissonClient redissonClient) {
-        this.redissonClient = redissonClient;
+        RedissonLockUtil.redissonClient = redissonClient;
     }
 
     /**
@@ -56,7 +56,7 @@ public class RedissonLockUtil {
      * @param lockKey
      * @param timeout 超时时间   单位：秒
      */
-    public static RLock lock(String lockKey, int timeout) {
+    public static RLock lock(String lockKey, long timeout) {
         RLock lock = redissonClient.getLock(lockKey);
         lock.lock(timeout, TimeUnit.SECONDS);
         return lock;
@@ -68,7 +68,7 @@ public class RedissonLockUtil {
      * @param unit 时间单位
      * @param timeout 超时时间
      */
-    public static RLock lock(String lockKey, TimeUnit unit , int timeout) {
+    public static RLock lock(String lockKey, TimeUnit unit , long timeout) {
         RLock lock = redissonClient.getLock(lockKey);
         lock.lock(timeout, unit);
         return lock;
@@ -81,7 +81,7 @@ public class RedissonLockUtil {
      * @param leaseTime 上锁后自动释放锁时间
      * @return
      */
-    public static boolean tryLock(String lockKey, int waitTime, int leaseTime) {
+    public static boolean tryLock(String lockKey, long waitTime, long leaseTime) {
         RLock lock = redissonClient.getLock(lockKey);
         try {
             return lock.tryLock(waitTime, leaseTime, TimeUnit.SECONDS);
@@ -98,7 +98,7 @@ public class RedissonLockUtil {
      * @param leaseTime 上锁后自动释放锁时间
      * @return
      */
-    public static boolean tryLock(String lockKey, TimeUnit unit, int waitTime, int leaseTime) {
+    public static boolean tryLock(String lockKey, TimeUnit unit, long waitTime, long leaseTime) {
         RLock lock = redissonClient.getLock(lockKey);
         try {
             return lock.tryLock(waitTime, leaseTime, unit);

@@ -1,9 +1,13 @@
 package com.nahsshan.common.response;
 
+import com.nahsshan.common.exception.CommonBizException;
+import com.nahsshan.common.exception.CommonSysException;
+
 import java.io.Serializable;
 
 /**
  * restful接口通用返回结果
+ * @author J.zhu
  */
 public class Result<T> implements Serializable {
 
@@ -77,6 +81,70 @@ public class Result<T> implements Serializable {
     public static <T> Result<T> newFailureResult(){
         Result<T> result = new Result<>();
         result.isSuccess = false;
+        return result;
+    }
+
+    /**
+     * 返回成功的结果
+     * @param message
+     * @return
+     */
+    public static <T> Result<T> newFailureResult(String message){
+        Result<T> result = Result.newFailureResult();
+        result.message = message;
+        return result;
+    }
+
+    /**
+     * 返回失败的结果
+     * @param commonBizException 异常
+     * @param <T>
+     * @return
+     */
+    public static <T> Result<T> newFailureResult(CommonBizException commonBizException){
+        Result<T> result = Result.newFailureResult();
+        result.errorCode = commonBizException.getCodeEnum().getCode();
+        result.message = commonBizException.getCodeEnum().getMessage();
+        return result;
+    }
+
+    /**
+     * 返回失败的结果
+     * @param commonBizException 异常
+     * @param data 需返回的数据
+     * @param <T>
+     * @return
+     */
+    public static <T> Result<T> newFailureResult(CommonBizException commonBizException, T data){
+        Result<T> result = Result.newFailureResult(commonBizException);
+        result.data = data;
+        return result;
+    }
+
+    /**
+     * 返回失败的结果
+     * @param commonSysException 异常
+     * @param data 需返回的数据
+     * @param <T>
+     * @return
+     */
+    public static <T> Result<T> newFailureResult(CommonSysException commonSysException){
+        Result<T> result = Result.newFailureResult();
+        result.errorCode = commonSysException.getCodeEnum().getCode();
+        result.message = commonSysException.getCodeEnum().getMessage();
+        return result;
+    }
+
+    /**
+     * 返回失败的结果
+     * @param commonSysException 异常
+     * @param data 需返回的数据
+     * @param <T>
+     * @return
+     */
+    public static <T> Result<T> newFailureResult(CommonSysException commonSysException, T data){
+        Result<T> result = Result.newFailureResult(commonSysException);
+        result.data = data;
         return result;
     }
 

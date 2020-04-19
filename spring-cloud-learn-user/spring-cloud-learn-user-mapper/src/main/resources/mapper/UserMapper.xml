@@ -12,11 +12,11 @@
         insert into `user` (`user_name`, `age`) values (#{userName}, #{age});
     </insert>
 
-    <select id="getByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    <select id="getById" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select user_id, user_name, age from `user` where user_id = #{userId}
     </select>
 
-    <select id="findAll" resultMap="BaseResultMap">
+    <select id="findList" resultMap="BaseResultMap">
         select user_id, user_name, age FROM `user`
     </select>
 

@@ -15,7 +15,7 @@ public interface UserService {
      * @param user
      * @return
      */
-    Integer saveUser(User user);
+    boolean save(User user);
     /**
      * 查询用户信息
      * @param userId
@@ -26,6 +26,6 @@ public interface UserService {
      * 查询所有的用户列表
      * @return List<User>
      */
-    List<User> findAll();
+    List<User> findList();
 
 }

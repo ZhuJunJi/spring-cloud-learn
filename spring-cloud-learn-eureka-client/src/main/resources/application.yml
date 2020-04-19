@@ -32,7 +32,7 @@ management:
       show-details: always
 user:
   service:
-    name: spring-cloud-learn-user-microservice-server-provider
+    name: user-microservice-server-provider
 feign:
   sentinel:
     enabled: true

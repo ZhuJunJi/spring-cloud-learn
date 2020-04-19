@@ -3,7 +3,7 @@
 Spring Cloud 越来越流行需要学习了解
 ## 项目介绍
    项目使用 Nacos 作为远程配置中心实现 one jar one docker run everywhere
-   实现Spring Cloud 集成 Ribbon、Feign、Getway、Mybatis、Redisson
+   实现Spring Cloud 集成 Ribbon、Feign、Geteway、Mybatis、Redisson
 
 ### Spring Cloud 与 Spring Boot 版本
 | Spring Cloud | Spring Boot |
@@ -30,8 +30,8 @@ spring-cloud-learn
 |    ├── spring-cloud-learn-user-common -- 用户公共模块
 |    ├── spring-cloud-learn-user-mapper -- 用户Dao
 |    ├── spring-cloud-learn-user-microservice-api -- 用户功能接口包
-|    ├── spring-cloud-learn-user-microservice-impl --用户功能服务包
-|    └── spring-cloud-learn-user-microservice-server -- 用户模块微服务提供者
+|    ├── spring-cloud-learn-user-microservice-api-provider --用户功能服务提供者
+|    └── spring-cloud-learn-user-microservice-controller -- 用户模块Controller
 ```
 #### 开发环境：
 - Jdk8+

@@ -23,13 +23,13 @@ public interface UserMapper {
      * @param userId
      * @return
      */
-    User getByUserId(@Param("userId") Long userId);
+    User getById(@Param("userId") Long userId);
     /**
      * 查询所有的用户列表
      *
      * 
      */
-    List<User> findAll();
+    List<User> findList();
 
 
 }

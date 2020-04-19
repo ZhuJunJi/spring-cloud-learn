@@ -22,8 +22,8 @@
         <module>spring-cloud-learn-user-common</module>
         <module>spring-cloud-learn-user-mapper</module>
         <module>spring-cloud-learn-user-microservice-api</module>
-        <module>spring-cloud-learn-user-microservice-impl</module>
-        <module>spring-cloud-learn-user-microservice-server</module>
+        <module>spring-cloud-learn-user-microservice-api-provider</module>
+        <module>spring-cloud-learn-user-microservice-controller</module>
     </modules>
 
 </project>

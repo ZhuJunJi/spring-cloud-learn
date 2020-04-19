@@ -13,8 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FeignUserServiceFallback implements FeignUserService {
     @Override
-    public Result get(Long userId) {
-        User user = new User();
-        return Result.newSuccessResult(user,"服务异常，服务降级！");
+    public Result<User> get(Long userId) {
+        return Result.newSuccessResult(null,"服务异常，服务降级！");
     }
 }

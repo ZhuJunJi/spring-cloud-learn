@@ -13,8 +13,8 @@ import java.util.List;
 public class UserServiceFallback implements UserService{
 
     @Override
-    public Integer saveUser(User user) {
-        return -1;
+    public boolean save(User user) {
+        return false;
     }
 
     @Override
@@ -23,7 +23,7 @@ public class UserServiceFallback implements UserService{
     }
 
     @Override
-    public List<User> findAll() {
+    public List<User> findList() {
         return Collections.emptyList();
     }
 }

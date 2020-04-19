@@ -1,11 +1,11 @@
 package com.nahsshan.common.redis.aop;
 
 import com.nahsshan.common.redis.annotation.LockKey;
+import com.nahsshan.common.redis.annotation.RedisLock;
+import com.nahsshan.common.redis.utils.RedisKeyUtil;
 import com.nahsshan.common.redis.utils.RedissonLockUtil;
-import com.nahsshan.common.response.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -15,8 +15,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -27,67 +28,98 @@ import java.util.concurrent.locks.ReentrantLock;
 @Order(1)
 @Slf4j
 public class LockAspect {
-	/**
+    /**
      * 思考：为什么不用synchronized
      * service 默认是单例的，并发下lock只有一个实例
      * 互斥锁 参数默认false，不公平锁
      */
-	private static  Lock lock = new ReentrantLock(true);
+    private static Lock lock = new ReentrantLock(true);
 
     /**
      * Service层切点
      */
-	@Pointcut("@annotation(com.nahsshan.common.redis.annotation.RedisLock)")
-	public void redisLockAspect() {
+    @Pointcut("@annotation(com.nahsshan.common.redis.annotation.RedisLock)")
+    public void redisLockAspect() {
 
-	}
+    }
 
-	@Around("redisLockAspect()")
-	public  Object redisLockAround(ProceedingJoinPoint joinPoint) {
+    @Around("redisLockAspect()")
+    public Object redisLockAround(ProceedingJoinPoint joinPoint) {
         Object obj = null;
-        String lockKey = getLockKey(joinPoint);
-        if(StringUtils.isNotBlank(lockKey)){
-            boolean res=false;
-            try {
-                res = RedissonLockUtil.tryLock(lockKey, TimeUnit.SECONDS, 3, 20);
-                if(res){
-                    log.info("获取锁 lockKey：{}",lockKey);
-                    obj = joinPoint.proceed();
-                }else{
-                    return Result.newFailureResult();
-                }
-            } catch (Throwable e) {
-                e.printStackTrace();
-                throw new RuntimeException();
-            } finally{
-                if(res){
-                    log.info("释放锁 lockKey：{}",lockKey);
-                    RedissonLockUtil.unlock(lockKey);
-                }
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Method method = signature.getMethod();
+        RedisLock annotation = method.getAnnotation(RedisLock.class);
+
+        String lockKey = getLockKey(joinPoint.getArgs(), method.getParameters());
+
+        boolean res = false;
+        try {
+            res = RedissonLockUtil.tryLock(lockKey, TimeUnit.MILLISECONDS, annotation.waitTime(), annotation.leaseTime());
+            if (res) {
+                log.info("RedisLock 分布式锁获取成功 description: {} lockKey：{}", annotation.description(),lockKey);
+                obj = joinPoint.proceed();
+            }else {
+                log.error("RedisLock 分布式锁获取失败 description: {}",annotation.description());
+                throw new RuntimeException("RedisLock 分布式锁获取失败 description: " + annotation.description());
+            }
+        } catch (Throwable e) {
+            log.error("RedisLock 分布式锁获取失败", e);
+            throw new RuntimeException("RedisLock 分布式锁获取失败 description: " + annotation.description());
+        } finally {
+            if (res) {
+                log.info("RedisLock 释放锁 description: {}, lockKey：{}", annotation.description(), lockKey);
+                RedissonLockUtil.unlock(lockKey);
             }
         }
         return obj;
-	}
+    }
 
     /**
-     * 获取方法上加了{@link com.nahsshan.common.redis.annotation.LockKey}注解的为lockKey
-     * @param joinPoint
+     * 判断一个对象是否是基本类型或基本类型的封装类型
+     */
+    private boolean isPrimitive(Object obj) {
+        try {
+            return ((Class<?>) obj.getClass().getField("TYPE").get(null)).isPrimitive();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * @param args
+     * @param parameters
+     * @param description
      * @return
      */
-    private String getLockKey(ProceedingJoinPoint joinPoint) {
-        Object[] args = joinPoint.getArgs();
-        MethodSignature signature = (MethodSignature)joinPoint.getSignature();
-        Method method = signature.getMethod();
-        Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-        for (Annotation[] parameterAnnotation: parameterAnnotations) {
-            int paramIndex= ArrayUtils.indexOf(parameterAnnotations, parameterAnnotation);
-            for (Annotation annotation: parameterAnnotation) {
-                if (annotation instanceof LockKey){
-                    return args[paramIndex].toString();
+    private String getLockKey(Object[] args, Parameter[] parameters) {
+
+        // 获取方法上的RedisLock注解
+        for (Parameter parameter : parameters) {
+            LockKey lockKey = parameter.getAnnotation(LockKey.class);
+            int paramIndex = ArrayUtils.indexOf(parameters, parameter);
+            if (lockKey != null) {
+                if (isPrimitive(args[paramIndex])) {
+                    // 是基本数据类型且参数名称与注解中相同
+                    return RedisKeyUtil.getLockKey(String.valueOf(args[paramIndex]));
+                } else {
+                    String fieldName = lockKey.fieldName();
+                    Field[] fields = args[paramIndex].getClass().getDeclaredFields();
+                    for (Field field : fields) {
+                        if (field.getName().equals(fieldName)) {
+                            field.setAccessible(true);
+                            try {
+                                return RedisKeyUtil.getLockKey(String.valueOf(field.get(parameter)));
+                            } catch (IllegalAccessException e) {
+                                log.error("RedisLock 分布式锁获取失败", e);
+                                throw new RuntimeException();
+                            }
+                        }
+                    }
                 }
             }
         }
-        return null;
+        log.error("RedisLock 分布式锁获取失败");
+        throw new RuntimeException();
     }
 
 }

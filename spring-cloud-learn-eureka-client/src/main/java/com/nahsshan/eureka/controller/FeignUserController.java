@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.server.PathParam;
+
 /**
  *
  * @author J.zhu
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class FeignUserController {
 
-//    @SuppressWarnings("SpringJavaAutowiredFieldsWarningInspection")
     @Autowired
     private FeignUserService feignUserService;
 
@@ -27,7 +28,7 @@ public class FeignUserController {
     private Integer port;
 
     @GetMapping("user/get/{userId}")
-    private Result getById(@PathVariable("userId") Long userId) {
+    private Result<User> get(@PathVariable("userId") Long userId) {
         return feignUserService.get(userId);
     }
 
