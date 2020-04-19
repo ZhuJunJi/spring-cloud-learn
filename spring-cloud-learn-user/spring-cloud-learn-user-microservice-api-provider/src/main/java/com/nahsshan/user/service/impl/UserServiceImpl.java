@@ -2,7 +2,7 @@ package com.nahsshan.user.service.impl;
 
 import com.nahsshan.common.db.annotation.Master;
 import com.nahsshan.common.db.annotation.Slave;
-import com.nahsshan.user.common.entity.User;
+import com.nahsshan.user.common.entity.SysUser;
 import com.nahsshan.user.mapper.UserMapper;
 import com.nahsshan.user.service.UserService;
 import org.apache.dubbo.config.annotation.Service;
@@ -23,19 +23,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Master
-    public boolean save(User user) {
+    public boolean save(SysUser user) {
         return userMapper.insert(user) < 1;
     }
 
     @Override
     @Slave
-    public User getById(Long userId) {
+    public SysUser getById(Long userId) {
         return userMapper.getById(userId);
     }
 
     @Override
     @Slave
-    public List<User> findList() {
+    public List<SysUser> findList() {
         return userMapper.findList();
+    }
+
+    @Override
+    public SysUser getByUsername(String username) {
+        return userMapper.getByUsername(username);
     }
 }

@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: spring-cloud-sso
+server:
+  address: www.nahsshan.com
+  port: 8080
+logging:
+  config: classpath:logback.xml
+---
+spring:
+  profiles: local
+  cloud:
+    nacos:
+      discovery:
+        ip: www.nahsshan.com
+        namespace: nahsshan
+        server-addr: www.nahsshan.com:8848
+        metadata:
+          version: 1.0.0
+  session:
+    store-type: redis
+  redis:
+    # redis 模式选择 single（单机）/cluster（集群）/sentinel（哨兵）
+    mode: single
+    password: 123456
+    timeout: 3000
+    pool:
+      maxIdle: 8
+      maxTotal: 8
+      minIdle: 0
+      commandTimeout: 60000
+      shutdownTimeout: 100
+    single:
+      hostName: www.nahsshan.com
+      port: 6379
+  datasource:
+    master:
+      jdbc-url: jdbc:mysql://www.nahsshan.com:3306/nahsshan?serverTimezone=Asia/Shanghai
+      username: root
+      password: "123456"
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    # 只读账户
+    slave1:
+      jdbc-url: jdbc:mysql://www.nahsshan.com:3306/nahsshan?serverTimezone=Asia/Shanghai
+      username: root
+      password: "123456"
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    # 只读账户
+    slave2:
+      jdbc-url: jdbc:mysql://www.nahsshan.com:3306/nahsshan?serverTimezone=Asia/Shanghai
+      username: root
+      password: "123456"
+      driver-class-name: com.mysql.cj.jdbc.Driver
+# Dubbo 配置项，对应 DubboConfigurationProperties 类
+dubbo:
+  # Dubbo 服务注册中心配置，对应 RegistryConfig 类
+  registry:
+    address: spring-cloud://127.0.0.1:8848 # 指定 Dubbo 服务注册中心的地址
+  # Spring Cloud Alibaba Dubbo 专属配置项，对应 DubboCloudProperties 类
+  cloud:
+    # 设置订阅的应用列表，默认为 * 订阅所有应用。
+    subscribed-services: user-microservice-provider

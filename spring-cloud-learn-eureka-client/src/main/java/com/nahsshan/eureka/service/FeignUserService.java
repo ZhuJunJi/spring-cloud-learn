@@ -2,7 +2,7 @@ package com.nahsshan.eureka.service;
 
 import com.nahsshan.common.response.Result;
 import com.nahsshan.eureka.service.fallback.FeignUserServiceFallback;
-import com.nahsshan.user.common.entity.User;
+import com.nahsshan.user.common.entity.SysUser;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +21,6 @@ public interface FeignUserService {
      * @return
      */
     @GetMapping(value = "/user/get/{userId}")
-    Result<User> get(@PathVariable("userId") Long userId);
+    Result<SysUser> get(@PathVariable("userId") Long userId);
 
 }

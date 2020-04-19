@@ -1,6 +1,6 @@
 package com.nahsshan.user.service;
 
-import com.nahsshan.user.common.entity.User;
+import com.nahsshan.user.common.entity.SysUser;
 
 import java.util.List;
 
@@ -15,17 +15,24 @@ public interface UserService {
      * @param user
      * @return
      */
-    boolean save(User user);
+    boolean save(SysUser user);
     /**
      * 查询用户信息
      * @param userId
      * @return
      */
-    User getById(Long userId);
+    SysUser getById(Long userId);
     /**
      * 查询所有的用户列表
      * @return List<User>
      */
-    List<User> findList();
+    List<SysUser> findList();
+
+    /**
+     * 用户名获取用户
+     * @param username
+     * @return
+     */
+    SysUser getByUsername(String username);
 
 }

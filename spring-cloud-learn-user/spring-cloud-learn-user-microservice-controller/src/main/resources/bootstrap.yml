@@ -50,3 +50,13 @@ dubbo:
   cloud:
     # 设置订阅的应用列表，默认为 * 订阅所有应用。
     subscribed-services: user-microservice-provider
+security:
+  oauth2:
+    resource:
+      user-info-uri: http://localhost:${server.port}/user/get
+    client:
+      id: user-controller
+      client-secret: 123456
+      access-token-uri: http://localhost:9098/oauth/token
+      grant-type: client_credentials,password
+      scope: server

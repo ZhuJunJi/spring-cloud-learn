@@ -2,7 +2,7 @@ package com.nahsshan.user.controller;
 
 import com.alibaba.csp.sentinel.annotation.SentinelResource;
 import com.nahsshan.common.response.Result;
-import com.nahsshan.user.common.entity.User;
+import com.nahsshan.user.common.entity.SysUser;
 import com.nahsshan.user.controller.block.UserControllerBlock;
 import com.nahsshan.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -25,14 +25,14 @@ public class UserController{
     private UserService userService;
 
     @PostMapping("/save")
-    public Result<Boolean> save(@RequestBody User user) {
+    public Result<Boolean> save(@RequestBody SysUser user) {
         return Result.newSuccessResult(userService.save(user));
     }
 
     @GetMapping("/get/{userId}")
     @SentinelResource(value="/user/get",blockHandler="get",blockHandlerClass= UserControllerBlock.class)
-    public Result<User> get(@PathVariable("userId") Long userId){
-        User user = userService.getById(userId);
+    public Result<SysUser> get(@PathVariable("userId") Long userId){
+        SysUser user = userService.getById(userId);
         return Result.newSuccessResult(user);
     }
 
@@ -41,7 +41,7 @@ public class UserController{
      * @return
      */
     @GetMapping("/findList")
-    public Result<List<User>> findList() {
+    public Result<List<SysUser>> findList() {
         return Result.newSuccessResult(userService.findList());
     }
 }

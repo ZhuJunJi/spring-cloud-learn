@@ -2,7 +2,7 @@ package com.nahsshan.eureka.service.fallback;
 
 import com.nahsshan.common.response.Result;
 import com.nahsshan.eureka.service.FeignUserService;
-import com.nahsshan.user.common.entity.User;
+import com.nahsshan.user.common.entity.SysUser;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FeignUserServiceFallback implements FeignUserService {
     @Override
-    public Result<User> get(Long userId) {
+    public Result<SysUser> get(Long userId) {
         return Result.newSuccessResult(null,"服务异常，服务降级！");
     }
 }

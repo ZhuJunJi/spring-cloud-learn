@@ -1,7 +1,8 @@
 package com.nahsshan.user.mapper;
 
-import com.nahsshan.user.common.entity.User;
+import com.nahsshan.user.common.entity.SysUser;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,19 +18,26 @@ public interface UserMapper {
      * 保存用户
      * @param user
      */
-    Integer insert(User user);
+    Integer insert(SysUser user);
     /**
      * 查询用户信息
      * @param userId
      * @return
      */
-    User getById(@Param("userId") Long userId);
+    SysUser getById(@Param("userId") Long userId);
     /**
      * 查询所有的用户列表
-     *
-     * 
+     * @return
      */
-    List<User> findList();
+    List<SysUser> findList();
+
+    /**
+     * 用户帐号查询用户信息
+     * @param username
+     * @return
+     */
+    @Select("Select * from sys_user Where user_id = #{username}")
+    SysUser getByUsername(@Param("username") String username);
 
 
 }
