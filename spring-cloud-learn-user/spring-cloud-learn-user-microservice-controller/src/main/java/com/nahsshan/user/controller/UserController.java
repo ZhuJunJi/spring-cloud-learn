@@ -7,6 +7,7 @@ import com.nahsshan.user.controller.block.UserControllerBlock;
 import com.nahsshan.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.Reference;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +31,7 @@ public class UserController{
     }
 
     @GetMapping("/get/{userId}")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @SentinelResource(value="/user/get",blockHandler="get",blockHandlerClass= UserControllerBlock.class)
     public Result<SysUser> get(@PathVariable("userId") Long userId){
         SysUser user = userService.getById(userId);
@@ -41,6 +43,7 @@ public class UserController{
      * @return
      */
     @GetMapping("/findList")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public Result<List<SysUser>> findList() {
         return Result.newSuccessResult(userService.findList());
     }

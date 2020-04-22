@@ -1,13 +1,17 @@
 package com.nahsshan.user.common.entity;
 
+import lombok.Data;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author J.zhu
  */
-public class SysRole {
+@Data
+public class SysRole implements Serializable {
 
-    private Integer roleId;
+    private Long roleId;
 
     private String roleName;
 

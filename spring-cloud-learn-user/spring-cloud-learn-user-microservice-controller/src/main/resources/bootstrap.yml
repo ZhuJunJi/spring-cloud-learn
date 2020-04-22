@@ -52,11 +52,12 @@ dubbo:
     subscribed-services: user-microservice-provider
 security:
   oauth2:
-    resource:
-      user-info-uri: http://localhost:${server.port}/user/get
     client:
-      id: user-controller
+      client-id: ben1
       client-secret: 123456
-      access-token-uri: http://localhost:9098/oauth/token
-      grant-type: client_credentials,password
+      user-authorization-uri: http://www.nahsshan.com:9098/oauth/authorize
+      access-token-uri: http://www.nahsshan.com:9098/oauth/token
       scope: server
+    resource:
+      jwt:
+        key-uri: http://www.nahsshan.com:9098/oauth/token_key

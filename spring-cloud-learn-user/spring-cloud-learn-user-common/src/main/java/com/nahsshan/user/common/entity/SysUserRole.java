@@ -8,11 +8,12 @@ import java.io.Serializable;
  * @author J.zhu
  */
 @Data
-public class SysRolePermission implements Serializable {
+public class SysUserRole implements Serializable {
 
-    private Long rolePermissionId;
+    private Long userRoleId;
+
+    private Long userId;
 
     private Long roleId;
 
-    private Long permissionId;
 }

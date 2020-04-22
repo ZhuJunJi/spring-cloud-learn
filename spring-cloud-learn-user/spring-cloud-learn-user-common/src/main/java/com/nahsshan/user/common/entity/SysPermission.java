@@ -2,6 +2,7 @@ package com.nahsshan.user.common.entity;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * @author J.zhu
  */
 @Data
-public class SysPermission {
+public class SysPermission implements Serializable {
 
     private Long permissionId;
 

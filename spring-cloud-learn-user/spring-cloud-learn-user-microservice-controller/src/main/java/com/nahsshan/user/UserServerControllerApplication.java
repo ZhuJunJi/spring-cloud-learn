@@ -14,9 +14,9 @@ import org.springframework.context.annotation.Bean;
  * @date 2019/7/11
  */
 @SpringBootApplication(
-        scanBasePackages = {"com.nahsshan.user.controller","com.nahsshan.common.exception","com.nahsshan.common.redis","com.nahsshan.common.aspect"},
+        scanBasePackages = {"com.nahsshan.user","com.nahsshan.common.exception","com.nahsshan.common.redis","com.nahsshan.common.aspect"},
         exclude = {DataSourceAutoConfiguration.class}
-)
+        )
 public class UserServerControllerApplication {
 
     public static void main(String[] args) {
@@ -34,4 +34,5 @@ public class UserServerControllerApplication {
         tomcatServletWebServerFactory.addConnectorCustomizers(customShutdown);
         return tomcatServletWebServerFactory;
     }
+
 }

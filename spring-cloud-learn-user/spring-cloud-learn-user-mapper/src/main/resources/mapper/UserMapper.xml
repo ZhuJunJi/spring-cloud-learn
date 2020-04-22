@@ -4,20 +4,20 @@
 
     <resultMap id="BaseResultMap" type="com.nahsshan.user.common.entity.SysUser">
         <id column="user_id" jdbcType="INTEGER" property="userId" />
-        <result column="user_name" jdbcType="VARCHAR" property="username" />
+        <result column="username" jdbcType="VARCHAR" property="username" />
         <result column="password" jdbcType="VARCHAR" property="password" />
     </resultMap>
 
     <insert id="insert" parameterType="com.nahsshan.user.common.entity.SysUser">
-        insert into `user` (`user_name`, `password`) values (#{username}, #{password});
+        insert into `sys_user` (`username`, `password`) values (#{username}, #{password});
     </insert>
 
     <select id="getById" parameterType="java.lang.Long" resultMap="BaseResultMap">
-        select user_id, user_name, password from `user` where user_id = #{userId}
+        select user_id, username, password from `sys_user` where user_id = #{userId}
     </select>
 
     <select id="findList" resultMap="BaseResultMap">
-        select user_id, user_name, password FROM `user`
+        select user_id, username, password FROM `sys_user`
     </select>
 
 </mapper>

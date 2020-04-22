@@ -25,8 +25,8 @@ spring:
     password: 123456
     timeout: 3000
     pool:
-      maxIdle: 8
-      maxTotal: 8
+      maxIdle: 1
+      maxTotal: 1
       minIdle: 0
       commandTimeout: 60000
       shutdownTimeout: 100
@@ -35,19 +35,19 @@ spring:
       port: 6379
   datasource:
     master:
-      jdbc-url: jdbc:mysql://www.nahsshan.com:3306/nahsshan?serverTimezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://www.nahsshan.com:3306/sso?serverTimezone=Asia/Shanghai
       username: root
       password: "123456"
       driver-class-name: com.mysql.cj.jdbc.Driver
     # 只读账户
     slave1:
-      jdbc-url: jdbc:mysql://www.nahsshan.com:3306/nahsshan?serverTimezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://www.nahsshan.com:3306/sso?serverTimezone=Asia/Shanghai
       username: root
       password: "123456"
       driver-class-name: com.mysql.cj.jdbc.Driver
     # 只读账户
     slave2:
-      jdbc-url: jdbc:mysql://www.nahsshan.com:3306/nahsshan?serverTimezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://www.nahsshan.com:3306/sso?serverTimezone=Asia/Shanghai
       username: root
       password: "123456"
       driver-class-name: com.mysql.cj.jdbc.Driver

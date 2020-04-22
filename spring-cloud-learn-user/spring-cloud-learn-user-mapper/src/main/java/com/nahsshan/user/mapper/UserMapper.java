@@ -17,6 +17,7 @@ public interface UserMapper {
     /**
      * 保存用户
      * @param user
+     * @return
      */
     Integer insert(SysUser user);
     /**
@@ -36,7 +37,7 @@ public interface UserMapper {
      * @param username
      * @return
      */
-    @Select("Select * from sys_user Where user_id = #{username}")
+    @Select("Select * from sys_user Where username = #{username}")
     SysUser getByUsername(@Param("username") String username);
 
 

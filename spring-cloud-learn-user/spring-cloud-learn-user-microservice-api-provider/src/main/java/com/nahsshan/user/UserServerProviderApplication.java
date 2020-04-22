@@ -4,6 +4,7 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
@@ -11,10 +12,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @author J.zhu
  * @date 2019/7/11
  */
-@MapperScan(value = "com.nahsshan.user.mapper")
-@SpringBootApplication(scanBasePackages = {"com.nahsshan.common.db","com.nahsshan.common.redis"})
-@EnableTransactionManagement
+@SpringBootApplication
 @EnableDiscoveryClient
+@EnableTransactionManagement
+@MapperScan(value = "com.nahsshan.user.mapper")
+@ComponentScan(basePackages = {"com.nahsshan.common.db","com.nahsshan.common.redis"})
 public class UserServerProviderApplication {
 
     public static void main(String[] args) {
