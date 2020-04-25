@@ -1,5 +1,7 @@
 package com.nahsshan.eureka.controller;
 
+import com.nahsshan.common.exception.CommonBizException;
+import com.nahsshan.common.exception.ExpCodeEnum;
 import com.nahsshan.common.response.Result;
 import com.nahsshan.eureka.service.FeignUserService;
 import com.nahsshan.user.common.entity.SysUser;

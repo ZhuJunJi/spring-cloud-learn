@@ -1,7 +1,7 @@
 package com.nahsshan.user.service.impl;
 
-import com.nahsshan.common.db.annotation.Master;
-import com.nahsshan.common.db.annotation.Slave;
+import com.nahsshan.common.mybatis.annotation.Master;
+import com.nahsshan.common.mybatis.annotation.Slave;
 import com.nahsshan.user.common.entity.SysUser;
 import com.nahsshan.user.mapper.UserMapper;
 import com.nahsshan.user.service.UserService;

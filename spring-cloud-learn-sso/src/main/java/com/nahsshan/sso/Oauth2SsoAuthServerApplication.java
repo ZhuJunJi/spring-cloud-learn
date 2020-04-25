@@ -1,13 +1,9 @@
 package com.nahsshan.sso;
 
-import com.nahsshan.sso.service.SSOUserDetailService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
@@ -17,7 +13,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
  * SSO SpringBootApplication
  * @author J.zhu
  */
-@SpringBootApplication(scanBasePackages = {"com.nahsshan.sso","com.nahsshan.common.exception","com.nahsshan.common.db"})
+@SpringBootApplication(scanBasePackages = {"com.nahsshan.sso","com.nahsshan.common.mybatis"})
 public class Oauth2SsoAuthServerApplication {
 
     public static void main(String[] args) {

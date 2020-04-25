@@ -13,6 +13,7 @@ import org.redisson.config.Config;
 import org.redisson.config.ReadMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -113,7 +114,7 @@ public class RedisNahsshanConfiguration {
             List<RedisNode> clusterNodes = StringUtils
                     .commaDelimitedListToSet(clusterConfig.getNodes())
                     .stream()
-                    .map(hostAndPort->readHostAndPortFromString(hostAndPort))
+                    .map(RedisNahsshanConfiguration::readHostAndPortFromString)
                     .collect(Collectors.toList());
 
             redisClusterConfiguration.setClusterNodes(clusterNodes);
@@ -133,7 +134,7 @@ public class RedisNahsshanConfiguration {
 
             Config config = new Config();
             String[] nodes = redisConfig.getCluster().getNodes().split(",");
-            List<String> newNodes = new ArrayList(nodes.length);
+            List<String> newNodes = new ArrayList<>(nodes.length);
             Arrays.stream(nodes).forEach((index) -> newNodes.add(
                     index.startsWith("redis://") ? index : "redis://" + index));
 
@@ -176,7 +177,7 @@ public class RedisNahsshanConfiguration {
             List<RedisNode> sentinels = StringUtils
                     .commaDelimitedListToSet(sentinelConfig.getNodes())
                     .stream()
-                    .map(hostAndPort->readHostAndPortFromString(hostAndPort))
+                    .map(RedisNahsshanConfiguration::readHostAndPortFromString)
                     .collect(Collectors.toList());
 
             redisSentinelConfiguration.setSentinels(sentinels);
@@ -199,7 +200,7 @@ public class RedisNahsshanConfiguration {
 
             Config config = new Config();
             String[] nodes = redisConfig.getSentinel().getNodes().split(",");
-            List<String> newNodes = new ArrayList(nodes.length);
+            List<String> newNodes = new ArrayList<>(nodes.length);
             Arrays.stream(nodes).forEach((index) -> newNodes.add(
                     index.startsWith("redis://") ? index : "redis://" + index));
 
@@ -257,6 +258,7 @@ public class RedisNahsshanConfiguration {
      * @return
      */
     @Bean
+    @ConditionalOnBean(RedisConfiguration.class)
     public RedisConnectionFactory redisConnectionFactory(@Qualifier("redisConfiguration") RedisConfiguration redisConfiguration, LettuceClientConfiguration lettuceClientConfiguration){
         LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(redisConfiguration, lettuceClientConfiguration);
         log.info("初始化 RedisConnectionFactory 成功!");
@@ -271,12 +273,13 @@ public class RedisNahsshanConfiguration {
      */
 
     @Bean
+    @ConditionalOnBean(RedisConnectionFactory.class)
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
 
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory);
 
-        Jackson2JsonRedisSerializer jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer(Object.class);
+        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer = new Jackson2JsonRedisSerializer<>(Object.class);
         ObjectMapper om = new ObjectMapper();
         om.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
@@ -298,11 +301,10 @@ public class RedisNahsshanConfiguration {
     }
 
     private static RedisNode readHostAndPortFromString(String hostAndPort) {
-
         String[] args = split(hostAndPort, ":");
 
-        Assert.notNull(args, "HostAndPort need to be seperated by  ':'.");
+        Assert.notNull(args, "HostAndPort need to be separated by  ':'.");
         Assert.isTrue(args.length == 2, "Host and Port String needs to specified as host:port");
-        return new RedisNode(args[0], Integer.valueOf(args[1]).intValue());
+        return new RedisNode(args[0], Integer.parseInt(args[1]));
     }
 }

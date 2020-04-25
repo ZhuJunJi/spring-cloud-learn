@@ -1,6 +1,8 @@
-package com.nahsshan.common.db.aop;
+package com.nahsshan.common.mybatis.aop;
 
-import com.nahsshan.common.db.bean.DataSourceContextHolder;
+import com.nahsshan.common.mybatis.annotation.Master;
+import com.nahsshan.common.mybatis.annotation.Slave;
+import com.nahsshan.common.mybatis.bean.DataSourceContextHolder;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -12,19 +14,19 @@ import org.springframework.stereotype.Component;
  * @author J.zhu
  * @date 2019/6/3
  * 数据源AOP
- * {@link com.nahsshan.common.db.annotation.Master Master数据源}
- * {@link com.nahsshan.common.db.annotation.Slave Slaver数据源}
+ * {@link Master Master数据源}
+ * {@link Slave Slaver数据源}
  */
 @Aspect
 @Component
 public class DataSourceAop {
 
-    @Pointcut("@annotation(com.nahsshan.common.db.annotation.Slave)")
+    @Pointcut("@annotation(com.nahsshan.common.mybatis.annotation.Slave)")
     public void readPointcut() {
 
     }
 
-    @Pointcut("@annotation(com.nahsshan.common.db.annotation.Master)")
+    @Pointcut("@annotation(com.nahsshan.common.mybatis.annotation.Master)")
     public void writePointcut() {
 
     }
@@ -40,7 +42,7 @@ public class DataSourceAop {
     }
 
     @After("readPointcut(),writePointcut()")
-    public void removeContextholder() {
+    public void removeContextHolder() {
         DataSourceContextHolder.removeContextholder();
     }
 }

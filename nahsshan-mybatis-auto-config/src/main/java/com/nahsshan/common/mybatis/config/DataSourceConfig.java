@@ -1,7 +1,7 @@
-package com.nahsshan.common.db.config;
+package com.nahsshan.common.mybatis.config;
 
-import com.nahsshan.common.db.bean.MyRoutingDataSource;
-import com.nahsshan.common.db.enums.DBTypeEnum;
+import com.nahsshan.common.mybatis.bean.MyRoutingDataSource;
+import com.nahsshan.common.mybatis.enums.DBTypeEnum;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -24,24 +24,23 @@ import java.util.Map;
  */
 @Configuration
 public class DataSourceConfig {
-    @Bean
-    @ConfigurationProperties("spring.datasource.master")
-    @RefreshScope
-    public DataSource masterDataSource() {
-        return DataSourceBuilder.create().build();
-    }
+
 
     @Bean
     @ConfigurationProperties("spring.datasource.slave1")
-    @RefreshScope
     public DataSource slave1DataSource() {
         return DataSourceBuilder.create().build();
     }
 
     @Bean
     @ConfigurationProperties("spring.datasource.slave2")
-    @RefreshScope
     public DataSource slave2DataSource() {
+        return DataSourceBuilder.create().build();
+    }
+
+    @Bean
+    @ConfigurationProperties("spring.datasource.master")
+    public DataSource masterDataSource() {
         return DataSourceBuilder.create().build();
     }
 

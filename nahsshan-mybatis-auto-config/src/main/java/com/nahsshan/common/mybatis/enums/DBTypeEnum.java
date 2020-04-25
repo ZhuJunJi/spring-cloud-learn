@@ -1,4 +1,4 @@
-package com.nahsshan.common.db.enums;
+package com.nahsshan.common.mybatis.enums;
 
 /**
  *

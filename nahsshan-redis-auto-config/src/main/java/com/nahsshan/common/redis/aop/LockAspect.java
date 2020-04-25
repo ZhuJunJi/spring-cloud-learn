@@ -11,7 +11,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.context.annotation.Scope;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -22,11 +22,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-@Component
-@Scope
-@Aspect
-@Order(1)
+/**
+ * @author J.zhu
+ */
 @Slf4j
+@Aspect
+@Component
+@Order(Ordered.HIGHEST_PRECEDENCE)
 public class LockAspect {
     /**
      * 思考：为什么不用synchronized

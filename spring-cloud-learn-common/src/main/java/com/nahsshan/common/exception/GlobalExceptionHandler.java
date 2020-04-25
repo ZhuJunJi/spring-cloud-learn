@@ -22,7 +22,7 @@ public class GlobalExceptionHandler<T> {
      * @return
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public Result httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException exception) {
+    public Result<T> httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException exception) {
         throw new CommonBizException(ExpCodeEnum.HTTP_REQ_METHOD_ERROR);
     }
 

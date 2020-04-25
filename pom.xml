@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.shanshan</groupId>
+    <groupId>com.nahsshan</groupId>
     <artifactId>spring-cloud-learn</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -17,14 +17,19 @@
         <module>spring-cloud-learn-zuul</module>
         <module>spring-cloud-learn-gateway</module>
         <module>spring-cloud-learn-sso</module>
+        <module>nahsshan-redis-auto-config</module>
+        <module>nahsshan-mybatis-auto-config</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+
         <springboot.version>2.2.5.RELEASE</springboot.version>
         <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
+        <spring-cloud-alibaba.version>2.2.0.RELEASE</spring-cloud-alibaba.version>
+
         <nacos-discovery.version>2.2.0.RELEASE</nacos-discovery.version>
         <nacos-config.version>2.2.0.RELEASE</nacos-config.version>
         <redisson.version>3.12.4</redisson.version>
@@ -32,17 +37,19 @@
         <joda-money.version>1.0.1</joda-money.version>
         <fastjson.version>1.2.68</fastjson.version>
         <mybatis-spring-boot-starter.version>2.1.2</mybatis-spring-boot-starter.version>
-        <alibaba-sentinel.version>2.2.0.RELEASE</alibaba-sentinel.version>
         <sentinel-datasource-nacos.version>1.7.1</sentinel-datasource-nacos.version>
-        <commons-pool2.version>2.8.0</commons-pool2.version>
+
+
         <sentinel-transport-common.version>1.7.1</sentinel-transport-common.version>
         <sentinel-spring-cloud-gateway-adapter.version>1.7.1</sentinel-spring-cloud-gateway-adapter.version>
         <sentinel-transport-simple-http.version>1.7.1</sentinel-transport-simple-http.version>
         <spring-boot-starter-ahas-sentinel-client.version>1.5.5</spring-boot-starter-ahas-sentinel-client.version>
-        <spring-cloud-starter-alibaba-sentinel.version>2.2.0.RELEASE</spring-cloud-starter-alibaba-sentinel.version>
         <slf4j-nop.version>2.0.0-alpha1</slf4j-nop.version>
-        <spring-cloud-starter-dubbo.version>2.2.0.RELEASE</spring-cloud-starter-dubbo.version>
         <spring-cloud-starter-oauth2.version>2.2.0.RELEASE</spring-cloud-starter-oauth2.version>
+
+        <commons-pool2.version>2.8.0</commons-pool2.version>
+        <commons-collections4.version>4.4</commons-collections4.version>
+
     </properties>
 
     <dependencyManagement>
@@ -61,26 +68,19 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
             <!-- spring-cloud-starter-oauth2 -->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-starter-oauth2</artifactId>
                 <version>${spring-cloud-starter-oauth2.version}</version>
-            </dependency>
-
-
-            <!-- nacos -->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-                <version>${nacos-discovery.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-                <version>${nacos-config.version}</version>
             </dependency>
 
             <!-- MyBatis -->
@@ -96,52 +96,8 @@
                 <artifactId>redisson-spring-boot-starter</artifactId>
                 <version>${redisson.version}</version>
             </dependency>
-            <!-- fastjson -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
-            </dependency>
 
-            <!-- curator -->
-            <dependency>
-                <groupId>org.apache.curator</groupId>
-                <artifactId>curator-recipes</artifactId>
-                <version>${curator.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.joda</groupId>
-                <artifactId>joda-money</artifactId>
-                <version>${joda-money.version}</version>
-            </dependency>
-
-            <!-- spring-cloud-dubbo -->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-dubbo</artifactId>
-                <version>${spring-cloud-starter-dubbo.version}</version>
-            </dependency>
-
-            <!-- Sentinel -->
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-spring-cloud-gateway-adapter</artifactId>
-                <version>${sentinel-spring-cloud-gateway-adapter.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
-                <version>${spring-cloud-starter-alibaba-sentinel.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-sentinel</artifactId>
-                <version>${alibaba-sentinel.version}</version>
-            </dependency>
-
+            <!-- Alibaba Sentinel Start-->
             <dependency>
                 <groupId>com.alibaba.csp</groupId>
                 <artifactId>spring-boot-starter-ahas-sentinel-client</artifactId>
@@ -154,17 +110,13 @@
                 <version>${sentinel-transport-common.version}</version>
                 <scope>provided</scope>
             </dependency>
+            <!-- Alibaba Sentinel End -->
 
+            <!-- Apache commons Start -->
             <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-transport-simple-http</artifactId>
-                <version>${sentinel-transport-simple-http.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.alibaba.csp</groupId>
-                <artifactId>sentinel-datasource-nacos</artifactId>
-                <version>${sentinel-datasource-nacos.version}</version>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4.version}</version>
             </dependency>
 
             <dependency>
@@ -172,13 +124,35 @@
                 <artifactId>commons-pool2</artifactId>
                 <version>${commons-pool2.version}</version>
             </dependency>
+            <!-- Apache commons End -->
 
+            <!-- curator -->
+            <dependency>
+                <groupId>org.apache.curator</groupId>
+                <artifactId>curator-recipes</artifactId>
+                <version>${curator.version}</version>
+            </dependency>
+
+            <!-- joda-money -->
+            <dependency>
+                <groupId>org.joda</groupId>
+                <artifactId>joda-money</artifactId>
+                <version>${joda-money.version}</version>
+            </dependency>
+
+            <!-- slf4j-nop -->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-nop</artifactId>
                 <version>${slf4j-nop.version}</version>
             </dependency>
 
+            <!-- fastjson -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

@@ -55,8 +55,11 @@ spring:
 dubbo:
   # Dubbo 服务注册中心配置，对应 RegistryConfig 类
   registry:
-    address: spring-cloud://127.0.0.1:8848 # 指定 Dubbo 服务注册中心的地址
+    address: nacos://127.0.0.1:8848 # 指定 Dubbo 服务注册中心的地址
+    re
   # Spring Cloud Alibaba Dubbo 专属配置项，对应 DubboCloudProperties 类
   cloud:
     # 设置订阅的应用列表，默认为 * 订阅所有应用。
     subscribed-services: user-microservice-provider
+mybatis:
+  mapper-locations:

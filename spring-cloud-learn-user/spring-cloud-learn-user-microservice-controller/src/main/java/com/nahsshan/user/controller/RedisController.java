@@ -1,7 +1,7 @@
 package com.nahsshan.user.controller;
 
-import com.nahsshan.common.redis.utils.RedissonLockUtil;
 import com.nahsshan.common.response.Result;
+import com.nahsshan.common.redis.utils.RedissonLockUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

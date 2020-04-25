@@ -1,5 +1,6 @@
 package com.nahsshan.user;
 
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +17,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableDiscoveryClient
 @EnableTransactionManagement
 @MapperScan(value = "com.nahsshan.user.mapper")
-@ComponentScan(basePackages = {"com.nahsshan.common.db","com.nahsshan.common.redis"})
+@ComponentScan(basePackages = {"com.nahsshan.common.mybatis"})
 public class UserServerProviderApplication {
 
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.nahsshan.common.db.bean;
+package com.nahsshan.common.mybatis.bean;
 
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.lang.Nullable;
