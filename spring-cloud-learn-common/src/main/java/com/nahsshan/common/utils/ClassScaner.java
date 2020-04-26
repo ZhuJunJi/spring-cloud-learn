@@ -16,6 +16,7 @@ import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.util.StringUtils;
 import org.springframework.util.SystemPropertyUtils;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.util.HashSet;
@@ -64,7 +65,7 @@ public class ClassScaner implements ResourceLoaderAware {
     }
 
     @Override
-    public void setResourceLoader(ResourceLoader resourceLoader) {
+    public void setResourceLoader(@Nullable ResourceLoader resourceLoader) {
         this.resourcePatternResolver = ResourcePatternUtils
                 .getResourcePatternResolver(resourceLoader);
         this.metadataReaderFactory = new CachingMetadataReaderFactory(
