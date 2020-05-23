@@ -43,6 +43,6 @@ public class DataSourceAop {
 
     @After("readPointcut(),writePointcut()")
     public void removeContextHolder() {
-        DataSourceContextHolder.removeContextholder();
+        DataSourceContextHolder.removeContextHolder();
     }
 }

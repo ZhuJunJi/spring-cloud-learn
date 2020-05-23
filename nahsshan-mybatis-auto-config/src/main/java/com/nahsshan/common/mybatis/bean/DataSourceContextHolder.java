@@ -1,9 +1,9 @@
 package com.nahsshan.common.mybatis.bean;
 
+import com.nahsshan.common.mybatis.core.SlaveDataSourceBalancer;
 import com.nahsshan.common.mybatis.enums.DBTypeEnum;
+import com.nahsshan.common.mybatis.pojo.Instance;
 import lombok.extern.slf4j.Slf4j;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  *
@@ -13,22 +13,19 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class DataSourceContextHolder {
 
-    private static final ThreadLocal<DBTypeEnum> CONTEXTHOLDER = new ThreadLocal<>();
-
-    private static final AtomicInteger COUNTER = new AtomicInteger(-1);
-
-    private static final Integer REPEAT_VALUE = 999;
+    private static final ThreadLocal<DBTypeEnum> CONTEXT_HOLDER = new ThreadLocal<>();
 
     public static void set(DBTypeEnum dbType) {
-        CONTEXTHOLDER.set(dbType);
+        CONTEXT_HOLDER.set(dbType);
 
     }
 
     public static DBTypeEnum get() {
-        return CONTEXTHOLDER.get();
+        return CONTEXT_HOLDER.get();
     }
-    public static void removeContextholder(){
-        CONTEXTHOLDER.remove();
+
+    public static void removeContextHolder(){
+        CONTEXT_HOLDER.remove();
     }
 
     public static void master() {
@@ -37,17 +34,9 @@ public class DataSourceContextHolder {
     }
 
     public static void slave() {
-        //  轮询
-        int index = COUNTER.getAndIncrement() % 2;
-        if (COUNTER.get() > REPEAT_VALUE) {
-            COUNTER.set(-1);
-        }
-        if (index == 0) {
-            set(DBTypeEnum.SLAVE1);
-            log.info("切换到slave1");
-        }else {
-            set(DBTypeEnum.SLAVE2);
-            log.info("切换到slave2");
-        }
+        // 随机权重slave数据源
+        Instance dataSourceInstance = SlaveDataSourceBalancer.RandomByWeight.selectInstance();
+
+        set(DBTypeEnum.valueOf(dataSourceInstance.getSourceName()));
     }
 }
