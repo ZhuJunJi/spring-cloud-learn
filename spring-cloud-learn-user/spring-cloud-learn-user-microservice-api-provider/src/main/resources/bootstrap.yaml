@@ -50,6 +50,8 @@ dubbo:
   cloud:
     # 设置订阅的应用列表，默认为 * 订阅所有应用
     subscribed-services: ''
+mybatis:
+  mapper-locations: classpath*:mapper/*.xml
 
 
 

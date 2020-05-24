@@ -24,7 +24,7 @@ import javax.sql.DataSource;
 @ConditionalOnClass(DataSource.class)
 public class MyBatisConfig {
 
-    @Value("${mybatis.mapper-locations:}")
+    @Value("${mybatis.mapper-locations}")
     private String mapperLocation;
 
     @Bean
@@ -32,7 +32,7 @@ public class MyBatisConfig {
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource);
-        if (mapperLocation.length() > 0) {
+        if (null != mapperLocation && mapperLocation.length() > 0) {
             sqlSessionFactoryBean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(mapperLocation));
         }
         return sqlSessionFactoryBean.getObject();

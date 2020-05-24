@@ -3,6 +3,7 @@ package com.nahsshan.common.mybatis.core;
 import com.nahsshan.common.mybatis.enums.DBTypeEnum;
 import com.nahsshan.common.mybatis.pojo.Instance;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import java.util.List;
  */
 public class SlaveDataSourceBalancer extends Blancer{
 
+    @Component
     public static class RandomByWeight {
 
         private static volatile List<Instance> dataSourceInstances;
@@ -23,12 +25,12 @@ public class SlaveDataSourceBalancer extends Blancer{
 
         private static double slave2Weight;
 
-        @Value("{spring.datasource.slave1.weight}")
+        @Value("${spring.datasource.slave1.weight}")
         public void setSlave1Weight(double slave1Weight) {
             RandomByWeight.slave1Weight = slave1Weight;
         }
 
-        @Value("{spring.datasource.slave2.weight}")
+        @Value("${spring.datasource.slave2.weight}")
         public void setSlave2Weight(double slave2Weight) {
             RandomByWeight.slave2Weight = slave2Weight;
         }
@@ -40,7 +42,7 @@ public class SlaveDataSourceBalancer extends Blancer{
 
                         dataSourceInstances = new ArrayList<>();
 
-                        dataSourceInstances.add(new Instance(DBTypeEnum.SLAVE2.name(),slave1Weight));
+                        dataSourceInstances.add(new Instance(DBTypeEnum.SLAVE1.name(),slave1Weight));
                         dataSourceInstances.add(new Instance(DBTypeEnum.SLAVE2.name(),slave2Weight));
                     }
                 }

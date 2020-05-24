@@ -3,7 +3,7 @@ spring:
     name: spring-cloud-sso
 server:
   address: www.nahsshan.com
-  port: 8080
+  port: 9098
 logging:
   config: classpath:logback.xml
 ---
@@ -55,8 +55,8 @@ spring:
 dubbo:
   # Dubbo 服务注册中心配置，对应 RegistryConfig 类
   registry:
-    address: nacos://127.0.0.1:8848 # 指定 Dubbo 服务注册中心的地址
-    re
+    # 指定 Dubbo 服务注册中心的地址
+    address: nacos://localhost:8848
   # Spring Cloud Alibaba Dubbo 专属配置项，对应 DubboCloudProperties 类
   cloud:
     # 设置订阅的应用列表，默认为 * 订阅所有应用。
