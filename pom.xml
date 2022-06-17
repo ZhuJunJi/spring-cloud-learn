@@ -36,7 +36,7 @@
         <redisson.version>3.12.4</redisson.version>
         <curator.version>4.3.0</curator.version>
         <joda-money.version>1.0.1</joda-money.version>
-        <fastjson.version>1.2.68</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <mybatis-spring-boot-starter.version>2.1.2</mybatis-spring-boot-starter.version>
         <sentinel-datasource-nacos.version>1.7.1</sentinel-datasource-nacos.version>
 
